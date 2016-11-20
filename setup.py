@@ -4,9 +4,10 @@ from setuptools import setup
 setup(
     name='clippings',
     version='0.1.0',
-    description='Kindle clippings parser',
+    description='Amazon Kindle clippings parser',
     long_description=(open('README.md').read()),
-    url='http://github.com/samueldg/py-clippings/',
+    url='http://github.com/samueldg/clippings/',
+    download_url = 'https://github.com/samueldg/clippings/tarball/0.1.0',
     install_requires=[
         'python-dateutil==2.6.0'
     ],
@@ -33,5 +34,6 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Utilities',
     ],
+    keywords=['amazon', 'kindle', 'clipping', 'e-book'],
     zip_safe=False,
 )

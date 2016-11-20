@@ -1,4 +1,4 @@
-"""Parser for Kindle clippings file"""
+"""Parser for Amazon Kindle clippings file"""
 
 import argparse
 import json
