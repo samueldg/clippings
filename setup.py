@@ -5,7 +5,7 @@ setup(
     name='clippings',
     version='0.1.0',
     description='Amazon Kindle clippings parser',
-    long_description=(open('README.md').read()),
+    long_description=(open('README.rst').read()),
     url='http://github.com/samueldg/clippings/',
     download_url = 'https://github.com/samueldg/clippings/tarball/0.1.0',
     install_requires=[
