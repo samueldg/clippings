@@ -1,13 +1,14 @@
 from setuptools import setup
 
+from clippings import __version__
 
 setup(
     name='clippings',
-    version='0.1.0',
+    version=__version__,
     description='Amazon Kindle clippings parser',
     long_description=(open('README.rst').read()),
     url='http://github.com/samueldg/clippings/',
-    download_url = 'https://github.com/samueldg/clippings/tarball/0.1.0',
+    download_url = 'https://github.com/samueldg/clippings/tarball/' + __version__,
     install_requires=[
         'python-dateutil==2.6.0'
     ],
