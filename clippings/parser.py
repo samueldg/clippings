@@ -19,7 +19,7 @@ class Document:
     A document has a title, and a list of authors.
     """
 
-    PATTERN = re.compile(r'^(?P<title>.+)\((?P<authors>.+?)\)$')
+    PATTERN = re.compile(r'^(?P<title>.+) \((?P<authors>.+?)\)$')
     AUTHORS_SEPARATOR = ';'
 
     def __init__(self, title, authors):
