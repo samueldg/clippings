@@ -1,7 +1,9 @@
+import datetime
 import unittest
 
 from clippings.parser import Document
 from clippings.parser import Location
+from clippings.parser import Metadata
 
 
 class DocumentTest(unittest.TestCase):
@@ -119,3 +121,95 @@ class LocationTest(unittest.TestCase):
         l1 = Location(self.BEGIN, self.END)
         l2 = (self.BEGIN, self.END)
         self.assertFalse(l1 == l2)
+
+
+class MetadataTest(unittest.TestCase):
+
+    def test_create_metadata(self):
+        category = 'Highlight'
+        location = Location(1, 2)
+        timestamp = datetime.datetime.now()
+        page = 1
+
+        metadata = Metadata(category, location, timestamp, page)
+
+        self.assertEqual(metadata.category, category)
+        self.assertEqual(metadata.location, location)
+        self.assertEqual(metadata.timestamp, timestamp)
+        self.assertEqual(metadata.page, page)
+
+    def test_metadata_to_str_without_page(self):
+        category = 'Highlight'
+        location = Location(1, 2)
+        timestamp = datetime.datetime(2016, 9, 13, 7, 29, 9)
+
+        metadata = Metadata(category, location, timestamp, page=None)
+
+        # Note the zero-padding in the hour!
+        # This means the generated string can differ by a character,
+        # but it shouldn't be an issue...
+        expected_string = ('- Your Highlight on Location 1-2 | '
+                           'Added on Tuesday, September 13, 2016 07:29:09 AM')
+        self.assertEqual(expected_string, str(metadata))
+
+    def test_metadata_to_str_with_page(self):
+        category = 'Highlight'
+        location = Location(1, 2)
+        timestamp = datetime.datetime(2016, 9, 13, 7, 29, 9)
+        page = 95
+
+        metadata = Metadata(category, location, timestamp, page)
+
+        expected_string = ('- Your Highlight on page 95 | Location 1-2 | '
+                           'Added on Tuesday, September 13, 2016 07:29:09 AM')
+        self.assertEqual(expected_string, str(metadata))
+
+    def test_metadata_to_dict(self):
+        category = 'Highlight'
+        location = Location(1, 2)
+        timestamp = datetime.datetime.now()
+        page = 1
+
+        expected_dict = {
+            'category': category,
+            'location': {'begin': 1, 'end': 2},
+            'page': page,
+            'timestamp': timestamp,
+        }
+
+        metadata = Metadata(category, location, timestamp, page)
+        self.assertEqual(expected_dict, metadata.to_dict())
+
+    def test_parse_metadata_without_page(self):
+        metadata_string = ('- Your Highlight on Location 20-21 | '
+                           'Added on Tuesday, September 13, 2016 7:29:09 AM')
+        metadata = Metadata.parse(metadata_string)
+
+        self.assertEqual('Highlight', metadata.category)
+        self.assertEqual(Location(20, 21), metadata.location)
+        self.assertEqual(datetime.datetime(2016, 9, 13, 7, 29, 9),
+                         metadata.timestamp)
+        self.assertEqual(None, metadata.page)
+
+    def test_parse_metadata_with_page(self):
+        metadata_string = ('- Your Highlight on page 95 | Location 1261-1265 | '
+                          'Added on Thursday, July 14, 2016 11:35:52 PM')
+        metadata = Metadata.parse(metadata_string)
+
+        self.assertEqual('Highlight', metadata.category)
+        self.assertEqual(Location(1261, 1265), metadata.location)
+        self.assertEqual(datetime.datetime(2016, 7, 14, 23, 35, 52),
+                         metadata.timestamp)
+        self.assertTrue(isinstance(metadata.page, int))
+        self.assertEqual(95, metadata.page)
+
+    def test_parse_metadata_with_single_location(self):
+        metadata_string = ('- Your Note on Location 20 | '
+                          'Added on Tuesday, September 13, 2016 7:29:09 AM')
+        metadata = Metadata.parse(metadata_string)
+
+        self.assertEqual('Note', metadata.category)
+        self.assertEqual(Location(20, 20), metadata.location)
+        self.assertEqual(datetime.datetime(2016, 9, 13, 7, 29, 9),
+                         metadata.timestamp)
+        self.assertEqual(None, metadata.page)
