@@ -100,3 +100,22 @@ class LocationTest(unittest.TestCase):
     def test_single_location_to_str(self):
         location = Location(self.BEGIN, self.END)
         self.assertEqual(self.RANGE_LOCATION_STRING, str(location))
+
+    def test_equality_same_values(self):
+        l1 = Location(self.BEGIN, self.END)
+        l2 = Location(self.BEGIN, self.END)
+        self.assertFalse(l1 is l2)
+        self.assertTrue(l1 == l2)
+
+    def test_equality_different_values(self):
+        l1 = Location(self.BEGIN, self.END)
+        l2 = Location(self.BEGIN, self.END + 1)
+        self.assertFalse(l1 == l2)
+
+        l2 = Location(self.BEGIN + 1, self.END)
+        self.assertFalse(l1 == l2)
+
+    def test_equality_different_types(self):
+        l1 = Location(self.BEGIN, self.END)
+        l2 = (self.BEGIN, self.END)
+        self.assertFalse(l1 == l2)
