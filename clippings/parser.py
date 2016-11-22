@@ -26,7 +26,7 @@ class Document:
         self.title = title
         self.authors = authors
 
-    def __repr__(self):
+    def __str__(self):
         authors_string = self.AUTHORS_SEPARATOR.join(self.authors)
         return '{title} ({authors})'.format(title=self.title,
                                             authors=authors_string)
@@ -53,7 +53,7 @@ class Location:
         self.begin = begin
         self.end = end
 
-    def __repr__(self):
+    def __str__(self):
         if self.begin == self.end:
             return str(self.begin)
         else:
@@ -93,7 +93,7 @@ class Metadata:
         self.timestamp = timestamp
         self.page = page
 
-    def __repr__(self):
+    def __str__(self):
         page_string = '' if self.page is None else 'page {0} | '.format(self.page)
 
         return '- Your {category} on {page}Location {location} | Added on {timestamp}'.format(
@@ -132,7 +132,7 @@ class Clipping:
         self.metadata = metadata
         self.content = content
 
-    def __repr__(self):
+    def __str__(self):
         return '\n'.join([str(self.document), str(self.metadata), str(self.content)])
 
     def to_dict(self):
