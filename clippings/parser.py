@@ -59,6 +59,9 @@ class Location:
         else:
             return '{0}-{1}'.format(self.begin, self.end)
 
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
     def to_dict(self):
         return self.__dict__
 
@@ -118,7 +121,7 @@ class Metadata:
         location = Location.parse(match.group('location'))
         timestamp = dateutil.parser.parse(match.group('timestamp'))
         try:
-            page = match.group('page')
+            page = int(match.group('page'))
         except TypeError:
             page = None
         return cls(category, location, timestamp, page)
