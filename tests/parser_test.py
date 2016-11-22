@@ -1,6 +1,7 @@
 import unittest
 
 from clippings.parser import Document
+from clippings.parser import Location
 
 
 class DocumentTest(unittest.TestCase):
@@ -54,3 +55,48 @@ class DocumentTest(unittest.TestCase):
             'authors': authors
         }
         self.assertEqual(expected_dict, document.to_dict())
+
+
+class LocationTest(unittest.TestCase):
+
+    BEGIN = 666
+    END = 1337
+    SINGLE_LOCATION_STRING = '666'
+    RANGE_LOCATION_STRING = '666-1337'
+
+    def test_create_location(self):
+        location = Location(self.BEGIN, self.END)
+        self.assertEqual(self.BEGIN, location.begin)
+        self.assertEqual(self.END, location.end)
+
+    def test_parse_range_location(self):
+        location_string = self.RANGE_LOCATION_STRING
+        location = Location.parse(location_string)
+        self.assertTrue(isinstance(location.begin, int))
+        self.assertTrue(isinstance(location.end, int))
+        self.assertEqual(self.BEGIN, location.begin)
+        self.assertEqual(self.END, location.end)
+
+    def test_parse_single_location(self):
+        location_string = self.SINGLE_LOCATION_STRING
+        location = Location.parse(location_string)
+        self.assertTrue(isinstance(location.begin, int))
+        self.assertTrue(isinstance(location.end, int))
+        self.assertEqual(self.BEGIN, location.begin)
+        self.assertEqual(self.BEGIN, location.end)
+
+    def test_location_to_dict(self):
+        location = Location(self.BEGIN, self.END)
+        expected_dictionary = {
+            'begin': self.BEGIN,
+            'end': self.END,
+        }
+        self.assertEqual(expected_dictionary, location.to_dict())
+
+    def test_range_location_to_str(self):
+        location = Location(self.BEGIN, self.BEGIN)
+        self.assertEqual(self.SINGLE_LOCATION_STRING, str(location))
+
+    def test_single_location_to_str(self):
+        location = Location(self.BEGIN, self.END)
+        self.assertEqual(self.RANGE_LOCATION_STRING, str(location))
