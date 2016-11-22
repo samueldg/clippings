@@ -121,7 +121,7 @@ class Metadata:
         location = Location.parse(match.group('location'))
         timestamp = dateutil.parser.parse(match.group('timestamp'))
         try:
-            page = match.group('page')
+            page = int(match.group('page'))
         except TypeError:
             page = None
         return cls(category, location, timestamp, page)
