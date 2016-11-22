@@ -6,6 +6,7 @@ import re
 
 import dateutil.parser
 
+from clippings.utils import BasicEqualityMixin
 from clippings.utils import DatetimeJSONEncoder
 
 
@@ -13,7 +14,7 @@ DATETIME_FORMAT = '%A, %B %d, %Y %I:%M:%S %p'  # E.g. Friday, May 13, 2016 11:23
 CLIPPINGS_SEPARATOR = '=========='
 
 
-class Document:
+class Document(BasicEqualityMixin):
     """Document (e.g. book, article) the clipping originates from.
 
     A document has a title, and a list of authors.
@@ -43,7 +44,7 @@ class Document:
         return cls(title, authors)
 
 
-class Location:
+class Location(BasicEqualityMixin):
     """Location of the clipping in the document.
 
     A location consists of a begin-end range.
@@ -59,9 +60,6 @@ class Location:
         else:
             return '{0}-{1}'.format(self.begin, self.end)
 
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
     def to_dict(self):
         return self.__dict__
 
@@ -76,7 +74,7 @@ class Location:
         return cls(int(begin), int(end))
 
 
-class Metadata:
+class Metadata(BasicEqualityMixin):
     """Metadata about the clipping:
 
         - The category of clipping (Note, Highlight, or Bookmark);
@@ -127,7 +125,7 @@ class Metadata:
         return cls(category, location, timestamp, page)
 
 
-class Clipping:
+class Clipping(BasicEqualityMixin):
     """Kindle clipping: content associated with a particular document"""
 
     def __init__(self, document, metadata, content):
