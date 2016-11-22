@@ -1,6 +1,9 @@
 import datetime
 import unittest
 
+from unittest.mock import MagicMock
+
+from clippings.parser import Clipping
 from clippings.parser import Document
 from clippings.parser import Location
 from clippings.parser import Metadata
@@ -213,3 +216,45 @@ class MetadataTest(unittest.TestCase):
         self.assertEqual(datetime.datetime(2016, 9, 13, 7, 29, 9),
                          metadata.timestamp)
         self.assertEqual(None, metadata.page)
+
+
+class ClippingTest(unittest.TestCase):
+
+    def test_create_clipping(self):
+        document = MagicMock()
+        metadata = MagicMock()
+        content = 'Some content'
+
+        clipping = Clipping(document, metadata, content)
+
+        self.assertEqual(document, clipping.document)
+        self.assertEqual(metadata, clipping.metadata)
+        self.assertEqual(content, clipping.content)
+
+    def test_clipping_to_str(self):
+        document = MagicMock()
+        document.__str__ = MagicMock(return_value='Title (Author)')
+        metadata = MagicMock()
+        metadata.__str__ = MagicMock(return_value='SO META!')
+        content = 'Some content'
+
+        expected_string = "Title (Author)\nSO META!\nSome content"
+
+        clipping = Clipping(document, metadata, content)
+        self.assertEqual(expected_string, str(clipping))
+
+    def test_clipping_to_dict(self):
+        document = MagicMock()
+        document.to_dict = MagicMock(return_value={'doc': 'ument'})
+        metadata = MagicMock()
+        metadata.to_dict = MagicMock(return_value={'meta': 'data'})
+        content = 'Some content'
+
+        expected_dict = {
+            'content': 'Some content',
+            'document': {'doc': 'ument'},
+            'metadata': {'meta': 'data'},
+        }
+
+        clipping = Clipping(document, metadata, content)
+        self.assertEqual(expected_dict, clipping.to_dict())
