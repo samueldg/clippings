@@ -89,11 +89,11 @@ class LocationTest(unittest.TestCase):
 
     def test_location_to_dict(self):
         location = Location(self.BEGIN, self.END)
-        expected_dictionary = {
+        expected_dict = {
             'begin': self.BEGIN,
             'end': self.END,
         }
-        self.assertEqual(expected_dictionary, location.to_dict())
+        self.assertEqual(expected_dict, location.to_dict())
 
     def test_range_location_to_str(self):
         location = Location(self.BEGIN, self.BEGIN)
