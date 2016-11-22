@@ -61,6 +61,30 @@ class DocumentTest(unittest.TestCase):
         }
         self.assertEqual(expected_dict, document.to_dict())
 
+    def test_equality_same_values(self):
+        title = 'Alice\'s Adventures in Wonderland,'
+        authors = ['Lewis Carroll']
+        document1 = Document(title, authors)
+        document2 = Document(title, authors)
+
+        self.assertFalse(document1 is document2)
+        self.assertEqual(document1, document2)
+
+    def test_equality_different_values(self):
+        title = 'Alice\'s Adventures in Wonderland,'
+        authors = ['Lewis Carroll']
+        document1 = Document(title, authors)
+        document2 = Document(title, ['Louise Carole'])
+
+        self.assertNotEqual(document1, document2)
+
+    def test_equality_different_types(self):
+        title = 'Alice\'s Adventures in Wonderland,'
+        authors = ['Lewis Carroll']
+        document1 = Document(title, authors)
+        document2 = (title, authors)
+        self.assertNotEqual(document1, document2)
+
 
 class LocationTest(unittest.TestCase):
 
@@ -107,23 +131,23 @@ class LocationTest(unittest.TestCase):
         self.assertEqual(self.RANGE_LOCATION_STRING, str(location))
 
     def test_equality_same_values(self):
-        l1 = Location(self.BEGIN, self.END)
-        l2 = Location(self.BEGIN, self.END)
-        self.assertFalse(l1 is l2)
-        self.assertTrue(l1 == l2)
+        location1 = Location(self.BEGIN, self.END)
+        location2 = Location(self.BEGIN, self.END)
+        self.assertFalse(location1 is location2)
+        self.assertEqual(location1, location2)
 
     def test_equality_different_values(self):
-        l1 = Location(self.BEGIN, self.END)
-        l2 = Location(self.BEGIN, self.END + 1)
-        self.assertFalse(l1 == l2)
+        location1 = Location(self.BEGIN, self.END)
+        location2 = Location(self.BEGIN, self.END + 1)
+        self.assertNotEqual(location1, location2)
 
-        l2 = Location(self.BEGIN + 1, self.END)
-        self.assertFalse(l1 == l2)
+        location2 = Location(self.BEGIN + 1, self.END)
+        self.assertNotEqual(location1, location2)
 
     def test_equality_different_types(self):
-        l1 = Location(self.BEGIN, self.END)
-        l2 = (self.BEGIN, self.END)
-        self.assertFalse(l1 == l2)
+        location1 = Location(self.BEGIN, self.END)
+        location2 = (self.BEGIN, self.END)
+        self.assertNotEqual(location1, location2)
 
 
 class MetadataTest(unittest.TestCase):
@@ -217,6 +241,37 @@ class MetadataTest(unittest.TestCase):
                          metadata.timestamp)
         self.assertEqual(None, metadata.page)
 
+    def test_equality_same_values(self):
+        category = 'Highlight'
+        location = Location(1, 2)
+        timestamp = datetime.datetime(2016, 9, 13, 7, 29, 9)
+
+        metadata1 = Metadata(category, location, timestamp, page=None)
+        metadata2 = Metadata(category, location, timestamp, page=None)
+
+        self.assertFalse(metadata1 is metadata2)
+        self.assertEqual(metadata1, metadata2)
+
+    def test_equality_different_values(self):
+        category = 'Highlight'
+        location = Location(1, 2)
+        timestamp = datetime.datetime(2016, 9, 13, 7, 29, 9)
+
+        metadata1 = Metadata(category, location, timestamp, page=None)
+        metadata2 = Metadata(category, location, timestamp, page=1)
+
+        self.assertNotEqual(metadata1, metadata2)
+
+    def test_equality_different_types(self):
+        category = 'Highlight'
+        location = Location(1, 2)
+        timestamp = datetime.datetime(2016, 9, 13, 7, 29, 9)
+
+        metadata1 = Metadata(category, location, timestamp, page=None)
+        metadata2 = (category, location, timestamp, None)
+
+        self.assertNotEqual(metadata1, metadata2)
+
 
 class ClippingTest(unittest.TestCase):
 
@@ -258,3 +313,43 @@ class ClippingTest(unittest.TestCase):
 
         clipping = Clipping(document, metadata, content)
         self.assertEqual(expected_dict, clipping.to_dict())
+
+    def test_equality_same_values(self):
+        document = Document('Title', ['Author'])
+        location = Location(1, 2)
+        category = 'Note'
+        timestamp = datetime.datetime(2016, 9, 13, 7, 29, 9)
+        metadata = Metadata(category, location, timestamp)
+        content = 'Nothing much here'
+
+        clipping1 = Clipping(document, metadata, content)
+        clipping2 = Clipping(document, metadata, content)
+
+        self.assertFalse(clipping1 is clipping2)
+        self.assertEqual(clipping1, clipping2)
+
+    def test_equality_different_values(self):
+        document = Document('Title', ['Author'])
+        location = Location(1, 2)
+        category = 'Note'
+        timestamp = datetime.datetime(2016, 9, 13, 7, 29, 9)
+        metadata = Metadata(category, location, timestamp)
+        content = 'Nothing much here'
+
+        clipping1 = Clipping(document, metadata, content)
+        clipping2 = Clipping(document, metadata, content + '!')
+
+        self.assertNotEqual(clipping1, clipping2)
+
+    def test_equality_different_types(self):
+        document = Document('Title', ['Author'])
+        location = Location(1, 2)
+        category = 'Note'
+        timestamp = datetime.datetime(2016, 9, 13, 7, 29, 9)
+        metadata = Metadata(category, location, timestamp)
+        content = 'Nothing much here'
+
+        clipping1 = Clipping(document, metadata, content)
+        clipping2 = (document, metadata, content)
+
+        self.assertNotEqual(clipping1, clipping2)
