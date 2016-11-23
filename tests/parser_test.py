@@ -36,7 +36,7 @@ class DocumentTest(unittest.TestCase, DefaultObjectFactoryMixin):
 
     defaults = {
         'title': '1984',
-        'authors': ['George Orwell'],
+        'authors': 'George Orwell',
     }
 
     default_object_string = '1984 (George Orwell)'
@@ -46,15 +46,10 @@ class DocumentTest(unittest.TestCase, DefaultObjectFactoryMixin):
         self.assertEqual(self.defaults['title'], document.title)
         self.assertEqual(self.defaults['authors'], document.authors)
 
-    def test_parse_document_with_single_author(self):
+    def test_parse_document(self):
         document = Document.parse(self.default_object_string)
         self.assertEqual(self.defaults['authors'], document.authors)
         self.assertEqual(self.defaults['title'], document.title)
-
-    def test_parse_document_with_multiple_authors(self):
-        document = Document.parse('1984 (Joshua Bloch;Brian Goetz)')
-        self.assertEqual(self.defaults['title'], document.title)
-        self.assertEqual(['Joshua Bloch', 'Brian Goetz'], document.authors)
 
     def test_document_to_string(self):
         document = self.get_default_object()
@@ -72,7 +67,7 @@ class DocumentTest(unittest.TestCase, DefaultObjectFactoryMixin):
 
     def test_equality_different_values(self):
         document1 = self.get_default_object()
-        document2 = self.get_default_object(authors=['Lewis Carroll'])
+        document2 = self.get_default_object(authors='Lewis Carroll')
         self.assertNotEqual(document1, document2)
 
     def test_equality_different_types(self):
