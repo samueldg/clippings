@@ -1,4 +1,6 @@
 import datetime
+import json
+import os.path
 import unittest
 
 from unittest.mock import MagicMock
@@ -7,6 +9,8 @@ from clippings.parser import Clipping
 from clippings.parser import Document
 from clippings.parser import Location
 from clippings.parser import Metadata
+from clippings.parser import parse_clippings
+from clippings.utils import DatetimeJSONEncoder
 
 
 class DefaultObjectFactoryMixin:
@@ -281,3 +285,28 @@ class ClippingTest(unittest.TestCase, DefaultObjectFactoryMixin):
         clipping = self.get_default_object()
         not_a_clipping = self.defaults
         self.assertNotEqual(clipping, not_a_clipping)
+
+
+class ClippingFileParsingTest(unittest.TestCase):
+
+    def test_parse_clippings_file(self):
+
+        # Parse the clippings.txt file in the test resources
+        test_resources_dir = os.path.join('tests', 'resources')
+        clippings_file_path = os.path.join(test_resources_dir, 'clippings.txt')
+
+
+        with open(clippings_file_path, 'r') as clippings_file:
+            clippings = parse_clippings(clippings_file)
+
+        # Basic sanity checks
+        self.assertIsNotNone(clippings)
+        self.assertEqual(5, len(clippings), '5 clippings should be parsed!')
+
+        # Compare the actual results against a JSON of expected results
+        results_file_path = os.path.join(test_resources_dir, 'clippings.json')
+        with open(results_file_path) as results_file:
+            expected_results = json.load(results_file)
+        actual_results = json.dumps([c.to_dict() for c in clippings], cls=DatetimeJSONEncoder)
+        actual_results = json.loads(actual_results)
+        self.assertEqual(expected_results, actual_results)
