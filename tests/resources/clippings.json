@@ -1,0 +1,82 @@
+[
+  {
+    "metadata": {
+      "location": {
+        "end": 4770,
+        "begin": 4769
+      },
+      "timestamp": "2016-03-21T08:35:16",
+      "category": "Highlight",
+      "page": 311
+    },
+    "document": {
+      "title": "Java Concurrency in Practice",
+      "authors": "Joshua Bloch;Brian Goetz;Tim Peierls;Joseph Bowbeer;David Holmes;Doug Lea"
+    },
+    "content": "Avoid the temptation to use thread priorities, since they increase platform dependence and can cause liveness problems. Most concurrent applications can use the default priority for all threads."
+  },
+  {
+    "metadata": {
+      "location": {
+        "end": 1265,
+        "begin": 1261
+      },
+      "timestamp": "2016-07-14T23:35:52",
+      "category": "Highlight",
+      "page": 95
+    },
+    "document": {
+      "title": "Microservice Architecture",
+      "authors": "Irakli Nadareishvili, Ronnie Mitra, Matt McLarty, and Mike Amundsen"
+    },
+    "content": "The possibility of increasing the number of internal meetings with large groups at Amazon in the early days of their AWS services implementation prompted Jeff Bezos to quip: No, communication is terrible! Jeff Bezos, Amazon founder and CEO This led to Bezos’ now famous “two-pizza team” rule. Any team that cannot be fed by two pizzas is a team that is too big."
+  },
+  {
+    "metadata": {
+      "location": {
+        "end": 1849,
+        "begin": 1849
+      },
+      "timestamp": "2016-08-16T18:02:10",
+      "category": "Highlight",
+      "page": null
+    },
+    "document": {
+      "title": "Rock, Paper, Scissors",
+      "authors": "Len Fischer"
+    },
+    "content": "“Always forgive your enemies,” said Oscar Wilde, “nothing annoys them so much.”"
+  },
+  {
+    "metadata": {
+      "location": {
+        "end": 20,
+        "begin": 20
+      },
+      "timestamp": "2016-09-13T07:29:09",
+      "category": "Note",
+      "page": null
+    },
+    "document": {
+      "title": "The Essays of Arthur Schopenhauer: the Wisdom of Life",
+      "authors": "Schopenhauer, Arthur"
+    },
+    "content": "remarque de Proust?"
+  },
+  {
+    "metadata": {
+      "location": {
+        "end": 20,
+        "begin": 20
+      },
+      "timestamp": "2016-09-13T07:29:09",
+      "category": "Highlight",
+      "page": null
+    },
+    "document": {
+      "title": "The Essays of Arthur Schopenhauer: the Wisdom of Life",
+      "authors": "Schopenhauer, Arthur"
+    },
+    "content": "As compilation is not my business,"
+  }
+]
