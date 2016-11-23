@@ -157,7 +157,7 @@ def parse_clippings(clippings_file):
         metadata_line = lines[1]
         metadata = Metadata.parse(metadata_line)
 
-        content = '\n'.join(lines[2:])
+        content = '\n'.join(lines[3:])
 
         clippings.append(Clipping(document, metadata, content))
 
@@ -180,7 +180,7 @@ def main():
         for clipping in clippings:
             print(clipping.document)
             print(clipping.metadata)
-            print(clipping.content)
+            print('\n', clipping.content)
             print(CLIPPINGS_SEPARATOR)
 
     if args.output == 'dict':
