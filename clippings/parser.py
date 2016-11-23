@@ -17,20 +17,18 @@ CLIPPINGS_SEPARATOR = '=========='
 class Document(BasicEqualityMixin):
     """Document (e.g. book, article) the clipping originates from.
 
-    A document has a title, and a list of authors.
+    A document has a title, and one or multiple authors (in a string).
     """
 
     PATTERN = re.compile(r'^(?P<title>.+) \((?P<authors>.+?)\)$')
-    AUTHORS_SEPARATOR = ';'
 
     def __init__(self, title, authors):
         self.title = title
         self.authors = authors
 
     def __str__(self):
-        authors_string = self.AUTHORS_SEPARATOR.join(self.authors)
         return '{title} ({authors})'.format(title=self.title,
-                                            authors=authors_string)
+                                            authors=self.authors)
 
     def to_dict(self):
         return self.__dict__
@@ -39,8 +37,7 @@ class Document(BasicEqualityMixin):
     def parse(cls, line):
         match = re.match(cls.PATTERN, line)
         title = match.group('title')
-        authors_string = match.group('authors')
-        authors = authors_string.split(cls.AUTHORS_SEPARATOR)
+        authors = match.group('authors')
         return cls(title, authors)
 
 
