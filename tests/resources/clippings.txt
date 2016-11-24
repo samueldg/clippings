@@ -9,7 +9,7 @@ Microservice Architecture (Irakli Nadareishvili, Ronnie Mitra, Matt McLarty, and
 The possibility of increasing the number of internal meetings with large groups at Amazon in the early days of their AWS services implementation prompted Jeff Bezos to quip: No, communication is terrible! Jeff Bezos, Amazon founder and CEO This led to Bezos’ now famous “two-pizza team” rule. Any team that cannot be fed by two pizzas is a team that is too big.
 ==========
 Rock, Paper, Scissors (Len Fischer)
-- Your Highlight on Location 1849-1849 | Added on Tuesday, August 16, 2016 6:02:10 PM
+- Your Highlight on Location 1849 | Added on Tuesday, August 16, 2016 6:02:10 PM
 
 “Always forgive your enemies,” said Oscar Wilde, “nothing annoys them so much.”
 ==========
@@ -19,7 +19,7 @@ The Essays of Arthur Schopenhauer: the Wisdom of Life (Schopenhauer, Arthur)
 remarque de Proust?
 ==========
 The Essays of Arthur Schopenhauer: the Wisdom of Life (Schopenhauer, Arthur)
-- Your Highlight on Location 20-20 | Added on Tuesday, September 13, 2016 7:29:09 AM
+- Your Highlight on Location 20 | Added on Tuesday, September 13, 2016 7:29:09 AM
 
 As compilation is not my business,
 ==========
