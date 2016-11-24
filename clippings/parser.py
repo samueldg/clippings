@@ -164,6 +164,38 @@ def parse_clippings(clippings_file):
     return clippings
 
 
+def as_kindle(clippings):
+    """Return the clippings in the original Kindle format.
+
+    This can useful to programatically create clippings file.
+    """
+    string = ''
+    for clipping in clippings:
+        string += '\n'.join([
+            str(clipping.document),
+            str(clipping.metadata),
+            '',
+            str(clipping.content),
+            CLIPPINGS_SEPARATOR,
+            ''
+        ])
+    return string
+
+
+def as_dicts(clippings):
+    """Return the clippings as python dictionaries.
+
+    The result can be converted to JSON, or manipulated directly in Python,
+    for instance.
+    """
+    return [clipping.to_dict() for clipping in clippings]
+
+
+def as_json(clippings):
+    """Return the clippings as a JSON string."""
+    return json.dumps(as_dicts(clippings), cls=DatetimeJSONEncoder)
+
+
 def main():
     """Read the provided clippings file, parse it,
     then print it using the provided format.
@@ -176,20 +208,14 @@ def main():
 
     clippings = parse_clippings(args.file)
 
-    if args.output == 'kindle':
-        for clipping in clippings:
-            print(clipping.document)
-            print(clipping.metadata)
-            print('\n', clipping.content)
-            print(CLIPPINGS_SEPARATOR)
+    format_functions = {  # Which function to call, depending on 'output' type
+        'kindle': as_kindle,
+        'dict': as_dicts,
+        'json': as_json,
+    }
+    format_function = format_functions[args.output]
+    print(format_function(clippings))
 
-    if args.output == 'dict':
-        for clipping in clippings:
-            print(clipping.to_dict())
-
-    elif args.output == 'json':
-        for clipping in clippings:
-            print(json.dumps(clipping.to_dict(), cls=DatetimeJSONEncoder))
 
 if __name__ == '__main__':
     main()
