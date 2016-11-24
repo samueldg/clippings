@@ -204,6 +204,8 @@ def main():
     parser.add_argument('file', type=argparse.FileType('r'))
     parser.add_argument('-o', '--output', dest='output',
                         choices=['json', 'dict', 'kindle'], default='json')
+    parser.add_argument('-w', '--write-to', dest='write_to', default='-',
+                        type=argparse.FileType('w'))
     args = parser.parse_args()
 
     clippings = parse_clippings(args.file)
@@ -214,7 +216,7 @@ def main():
         'json': as_json,
     }
     format_function = format_functions[args.output]
-    print(format_function(clippings))
+    print(format_function(clippings), file=args.write_to)
 
 
 if __name__ == '__main__':
