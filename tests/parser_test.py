@@ -159,17 +159,14 @@ class MetadataTest(unittest.TestCase, DefaultObjectFactoryMixin):
 
     def test_metadata_to_str_without_page(self):
         metadata = self.get_default_object(page=None)
-        # Note the zero-padding in the hour!
-        # This means the generated string can differ by a character,
-        # but it shouldn't be an issue...
         expected_string = ('- Your Highlight on Location 666-1337 | '
-                           'Added on Tuesday, September 13, 2016 07:29:09 AM')
+                           'Added on Tuesday, September 13, 2016 7:29:09 AM')
         self.assertEqual(expected_string, str(metadata))
 
     def test_metadata_to_str_with_page(self):
         metadata = self.get_default_object()
         expected_string = ('- Your Highlight on page 95 | Location 666-1337 | '
-                           'Added on Tuesday, September 13, 2016 07:29:09 AM')
+                           'Added on Tuesday, September 13, 2016 7:29:09 AM')
         self.assertEqual(expected_string, str(metadata))
 
     def test_metadata_to_dict(self):
@@ -180,7 +177,7 @@ class MetadataTest(unittest.TestCase, DefaultObjectFactoryMixin):
 
     def test_parse_metadata_without_page(self):
         metadata_string = ('- Your Highlight on Location 666-1337 | '
-                           'Added on Tuesday, September 13, 2016 07:29:09 AM')
+                           'Added on Tuesday, September 13, 2016 7:29:09 AM')
         metadata = Metadata.parse(metadata_string)
 
         self.assertEqual(self.defaults['category'], metadata.category)
@@ -190,7 +187,7 @@ class MetadataTest(unittest.TestCase, DefaultObjectFactoryMixin):
 
     def test_parse_metadata_with_page(self):
         metadata_string = ('- Your Highlight on page 95 | Location 666-1337 | '
-                           'Added on Thursday, September 13, 2016 07:29:09 AM')
+                           'Added on Thursday, September 13, 2016 7:29:09 AM')
         metadata = Metadata.parse(metadata_string)
 
         self.assertEqual(self.defaults['category'], metadata.category)
@@ -233,7 +230,6 @@ class ClippingTest(unittest.TestCase, DefaultObjectFactoryMixin):
         'document': DocumentTest.get_default_object(),
         'metadata': MetadataTest.get_default_object(),
         'content': 'Some \n content'
-
     }
 
     def test_create_clipping(self):
