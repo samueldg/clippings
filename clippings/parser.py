@@ -85,6 +85,8 @@ class Metadata(BasicEqualityMixin):
                          r'Location (?P<location>\d+(-\d+)?) \| ' +
                          r'Added on (?P<timestamp>.+)$')
 
+    HOUR_PATTERN = re.compile(r'0(\d:\d{2}:\d{2})')
+
     def __init__(self, category, location, timestamp, page=None):
         self.category = category
         self.location = location
@@ -94,11 +96,17 @@ class Metadata(BasicEqualityMixin):
     def __str__(self):
         page_string = '' if self.page is None else 'page {0} | '.format(self.page)
 
+        # Remove leading zero's from the timestamp.
+        # They are not present in the Kindle format, but can't be avoided
+        # in strftime.
+        timestamp_str = self.timestamp.strftime(DATETIME_FORMAT)
+        timestamp_str = re.sub(self.HOUR_PATTERN, r'\1', timestamp_str)
+
         return '- Your {category} on {page}Location {location} | Added on {timestamp}'.format(
             category=self.category.title(),
             page=page_string,
             location=self.location,
-            timestamp=self.timestamp.strftime(DATETIME_FORMAT),
+            timestamp=timestamp_str,
         )
 
     def to_dict(self):
