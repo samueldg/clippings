@@ -8,7 +8,7 @@ It allows you to:
 -  Parse your existing clippings file into a structured representation;
 -  Generate clippings file programmatically.
 
-|pypi| |build|
+|pypi| |build| |coverage|
 
 Installation
 ------------
@@ -36,3 +36,7 @@ Usage
 .. |build| image:: https://api.travis-ci.org/samueldg/clippings.svg?branch=master
     :target: http://travis-ci.org/samueldg/clippings
     :alt: Build status
+
+.. |coverage| image:: https://coveralls.io/repos/github/samueldg/clippings/badge.svg?branch=master
+    :target: https://coveralls.io/github/samueldg/clippings?branch=master
+    :alt: Test coverage
