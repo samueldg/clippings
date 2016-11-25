@@ -224,7 +224,7 @@ def main():
         'json': as_json,
     }
     format_function = format_functions[args.output]
-    print(format_function(clippings), file=args.write_to)
+    print(format_function(clippings), file=args.write_to, end='')
 
 
 if __name__ == '__main__':
