@@ -1,16 +1,24 @@
 import datetime
 import json
 import os.path
+import sys
 import unittest
 
 from unittest.mock import MagicMock
+from unittest.mock import patch
 
 from clippings.parser import Clipping
 from clippings.parser import Document
 from clippings.parser import Location
 from clippings.parser import Metadata
+from clippings.parser import as_dicts
+from clippings.parser import as_json
+from clippings.parser import as_kindle
+from clippings.parser import main as parser_main
 from clippings.parser import parse_clippings
-from clippings.utils import DatetimeJSONEncoder
+
+from .utils.context import cli_args
+from .utils.context import capture_stdout
 
 
 class DefaultObjectFactoryMixin:
@@ -285,24 +293,100 @@ class ClippingTest(unittest.TestCase, DefaultObjectFactoryMixin):
 
 class ClippingFileParsingTest(unittest.TestCase):
 
-    def test_parse_clippings_file(self):
+    test_resources_dir = os.path.join('tests', 'resources')
 
-        # Parse the clippings.txt file in the test resources
-        test_resources_dir = os.path.join('tests', 'resources')
-        clippings_file_path = os.path.join(test_resources_dir, 'clippings.txt')
+    @property
+    def maxDiff(self):
+        """See the full diff upon failure, for these tests."""
+        return None
 
+    def test_parse_clippings_file_to_json(self):
+
+        clippings = self._parse_sample_clippings_file()
+
+        results_file_path = os.path.join(self.test_resources_dir, 'clippings.json')
+        with open(results_file_path) as results_file:
+            expected_results = json.load(results_file)
+        actual_results = as_json(clippings)
+        actual_results = json.loads(actual_results)
+        self.assertEqual(expected_results, actual_results)
+
+    def test_parse_clippings_file_to_kindle(self):
+
+        clippings = self._parse_sample_clippings_file()
+
+        # Parse the Kindle file, then regenerate it, and compare.
+        results_file_path = os.path.join(self.test_resources_dir, 'clippings.txt')
+        with open(results_file_path) as results_file:
+            expected_results = results_file.read()
+        actual_results = as_kindle(clippings)
+        self.assertEqual(expected_results, actual_results)
+
+    def test_parse_clippings_file_to_dict(self):
+
+        clippings = self._parse_sample_clippings_file()
+
+        # Compare the actual results against a JSON of expected results
+        results_file_path = os.path.join(self.test_resources_dir, 'clippings.dict')
+        with open(results_file_path) as results_file:
+            expected_results = eval(results_file.read())
+        actual_results = as_dicts(clippings)
+        self.assertEqual(expected_results, actual_results)
+
+    def _parse_sample_clippings_file(self):
+        """Parse the clippings.txt file in the test resources, and returns
+        the list of Clipping objects.
+
+        In the process, we validate the correct number of clippings were parsed,
+        so test failures are caught early."""
+
+        clippings_file_path = os.path.join(self.test_resources_dir, 'clippings.txt')
 
         with open(clippings_file_path, 'r') as clippings_file:
-            clippings = parse_clippings(clippings_file)
+            return parse_clippings(clippings_file)
 
-        # Basic sanity checks
         self.assertIsNotNone(clippings)
         self.assertEqual(5, len(clippings), '5 clippings should be parsed!')
 
-        # Compare the actual results against a JSON of expected results
-        results_file_path = os.path.join(test_resources_dir, 'clippings.json')
-        with open(results_file_path) as results_file:
-            expected_results = json.load(results_file)
-        actual_results = json.dumps([c.to_dict() for c in clippings], cls=DatetimeJSONEncoder)
-        actual_results = json.loads(actual_results)
-        self.assertEqual(expected_results, actual_results)
+
+class MainFunctionTest(unittest.TestCase):
+
+    def test_output_format_json(self):
+        with cli_args(['tests/resources/clippings.txt', '-o', 'json']), \
+             patch('clippings.parser.as_json', return_value='{"j": "son"}') as as_json_mock, \
+             capture_stdout() as stdout:
+
+            parser_main()
+
+        self.assertTrue(as_json_mock.called)
+        self.assertEqual('{"j": "son"}', stdout.read())
+
+    def test_output_format_dict(self):
+        with cli_args(['tests/resources/clippings.txt', '-o', 'dict']), \
+             patch('clippings.parser.as_dicts', return_value={'d': 'ict'}) as as_dicts_mock, \
+             capture_stdout() as stdout:
+
+            parser_main()
+
+        self.assertTrue(as_dicts_mock.called)
+        self.assertEqual(str({'d': 'ict'}), stdout.read())
+
+    def test_output_format_kindle(self):
+        with cli_args(['tests/resources/clippings.txt', '-o', 'kindle']), \
+             patch('clippings.parser.as_kindle', return_value='kindle') as as_kindle_mock, \
+             capture_stdout() as stdout:
+
+            parser_main()
+
+        self.assertTrue(as_kindle_mock.called)
+        self.assertEqual('kindle', stdout.read())
+
+    def test_output_format_defaults_to_json(self):
+        with cli_args(['tests/resources/clippings.txt']), \
+             patch('clippings.parser.as_json', return_value='{"j": "son"}') as as_json_mock, \
+             capture_stdout() as stdout:
+
+            parser_main()
+
+        self.assertTrue(as_json_mock.called)
+        self.assertEqual('{"j": "son"}', stdout.read())
