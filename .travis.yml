@@ -3,6 +3,8 @@ python:
   - "3.5"
 sudo: false
 install:
-  - pip install tox-travis
+  - pip install tox-travis coveralls
 script:
   - tox
+after_success:
+  - coveralls
