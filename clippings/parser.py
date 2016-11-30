@@ -1,4 +1,5 @@
 """Parser for Amazon Kindle clippings file"""
+from __future__ import print_function
 
 import argparse
 import json
