@@ -5,6 +5,19 @@ Change Log
 This document tracks changes to `clippings <https://pypi.python.org/pypi/clippings>`_ between releases.
 
 
+`0.2.0`_ (2016-11-29)
+---------------------
+
+* [feature] Ability to specify the write file using ``--write-to`` or ``-w``.
+* [dist] Officially dropped support for Python 2.6.
+* [fix] Print a list/JSON array, rather than concatenated dict's/JSON objects (backwards-incompatible).
+* [fix] Removed leading zero's in hours, to align with the Kindle format.
+* [fix] Fixed broken Python 2 support (module, and tests).
+* [test] Added tests for the output functions and ``main()``.
+* [test] Added all supported Python version in test automation.
+* [misc] Added ``.coveragerc`` file for coverage configuration.
+* [misc] Added coveralls to CI process, and badge on the README.
+
 `0.1.2`_ (2016-11-23)
 ---------------------
 
@@ -30,3 +43,4 @@ This document tracks changes to `clippings <https://pypi.python.org/pypi/clippin
 .. _`0.1.0`: https://github.com/samueldg/clippings/releases/tag/0.1.0
 .. _`0.1.1`: https://github.com/samueldg/clippings/compare/0.1.0...0.1.1
 .. _`0.1.2`: https://github.com/samueldg/clippings/compare/0.1.1...0.1.2
+.. _`0.2.0`: https://github.com/samueldg/clippings/compare/0.1.2...0.2.0
