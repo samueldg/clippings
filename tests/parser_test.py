@@ -4,8 +4,10 @@ import os.path
 import sys
 import unittest
 
-from unittest.mock import MagicMock
-from unittest.mock import patch
+try:
+    import unittest.mock as mock
+except ImportError:
+    import mock
 
 from clippings.parser import Clipping
 from clippings.parser import Document
@@ -247,10 +249,10 @@ class ClippingTest(unittest.TestCase, DefaultObjectFactoryMixin):
         self.assertEqual(self.defaults['content'], clipping.content)
 
     def test_clipping_to_str(self):
-        document = MagicMock()
-        document.__str__ = MagicMock(return_value='Title (Author)')
-        metadata = MagicMock()
-        metadata.__str__ = MagicMock(return_value='SO META!')
+        document = mock.MagicMock()
+        document.__str__ = mock.MagicMock(return_value='Title (Author)')
+        metadata = mock.MagicMock()
+        metadata.__str__ = mock.MagicMock(return_value='SO META!')
         content = 'Some content'
 
         expected_string = "Title (Author)\nSO META!\nSome content"
@@ -259,10 +261,10 @@ class ClippingTest(unittest.TestCase, DefaultObjectFactoryMixin):
         self.assertEqual(expected_string, str(clipping))
 
     def test_clipping_to_dict(self):
-        document = MagicMock()
-        document.to_dict = MagicMock(return_value={'doc': 'ument'})
-        metadata = MagicMock()
-        metadata.to_dict = MagicMock(return_value={'meta': 'data'})
+        document = mock.MagicMock()
+        document.to_dict = mock.MagicMock(return_value={'doc': 'ument'})
+        metadata = mock.MagicMock()
+        metadata.to_dict = mock.MagicMock(return_value={'meta': 'data'})
         content = 'Some content'
 
         expected_dict = {
@@ -353,7 +355,7 @@ class MainFunctionTest(unittest.TestCase):
 
     def test_output_format_json(self):
         with cli_args(['tests/resources/clippings.txt', '-o', 'json']), \
-             patch('clippings.parser.as_json', return_value='{"j": "son"}') as as_json_mock, \
+             mock.patch('clippings.parser.as_json', return_value='{"j": "son"}') as as_json_mock, \
              capture_stdout() as stdout:
 
             parser_main()
@@ -363,7 +365,7 @@ class MainFunctionTest(unittest.TestCase):
 
     def test_output_format_dict(self):
         with cli_args(['tests/resources/clippings.txt', '-o', 'dict']), \
-             patch('clippings.parser.as_dicts', return_value={'d': 'ict'}) as as_dicts_mock, \
+             mock.patch('clippings.parser.as_dicts', return_value={'d': 'ict'}) as as_dicts_mock, \
              capture_stdout() as stdout:
 
             parser_main()
@@ -373,7 +375,7 @@ class MainFunctionTest(unittest.TestCase):
 
     def test_output_format_kindle(self):
         with cli_args(['tests/resources/clippings.txt', '-o', 'kindle']), \
-             patch('clippings.parser.as_kindle', return_value='kindle') as as_kindle_mock, \
+             mock.patch('clippings.parser.as_kindle', return_value='kindle') as as_kindle_mock, \
              capture_stdout() as stdout:
 
             parser_main()
@@ -383,7 +385,7 @@ class MainFunctionTest(unittest.TestCase):
 
     def test_output_format_defaults_to_json(self):
         with cli_args(['tests/resources/clippings.txt']), \
-             patch('clippings.parser.as_json', return_value='{"j": "son"}') as as_json_mock, \
+             mock.patch('clippings.parser.as_json', return_value='{"j": "son"}') as as_json_mock, \
              capture_stdout() as stdout:
 
             parser_main()
