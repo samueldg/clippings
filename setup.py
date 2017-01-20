@@ -27,6 +27,11 @@ setup(
     packages=[
         'clippings'
     ],
+    entry_points={
+        'console_scripts': [
+            'clippings = clippings.parser:main',
+        ],
+    },
     include_package_data=True,
     classifiers=[
         'Development Status :: 3 - Alpha',
