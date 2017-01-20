@@ -23,10 +23,10 @@ Usage
 .. code:: shell
 
     # Parse a clippings file
-    python -m clippings.parser -o dict ./clippings.txt
+    clippings -o dict ./clippings.txt
     
     # or from stdin:
-    cat clippings.txt | python -m clippings.parser -
+    cat clippings.txt | clippings -
 
 
 .. |pypi| image:: https://img.shields.io/pypi/v/clippings.svg
