@@ -6,7 +6,7 @@ from clippings import __version__
 
 
 requirements = [
-    'python-dateutil==2.6.0',
+    'python-dateutil==2.7.5',
 ]
 
 if sys.version_info[0] == 2:
