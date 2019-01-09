@@ -5,6 +5,13 @@ Change Log
 This document tracks changes to `clippings <https://pypi.python.org/pypi/clippings>`_ between releases.
 
 
+`0.4.0`_ (2018-01-08)
+---------------------
+
+* [dist] Officially drop support for Python 3.3.
+* [dist] Add support for Python 3.7, and include in CI.
+* [fix] Fix Travis CI build, which no longer supported Python 3.3.
+
 `0.3.0`_ (2017-01-19)
 ---------------------
 
@@ -56,3 +63,4 @@ This document tracks changes to `clippings <https://pypi.python.org/pypi/clippin
 .. _`0.2.0`: https://github.com/samueldg/clippings/compare/0.1.2...0.2.0
 .. _`0.2.1`: https://github.com/samueldg/clippings/compare/0.2.0...0.2.1
 .. _`0.3.0`: https://github.com/samueldg/clippings/compare/0.2.1...0.3.0
+.. _`0.4.0`: https://github.com/samueldg/clippings/compare/0.3.0...0.4.0
