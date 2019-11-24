@@ -2,7 +2,7 @@
 Change Log
 ==========
 
-This document tracks changes to `clippings <https://pypi.python.org/pypi/clippings>`_ between releases.
+This document tracks changes to `clippings <https://pypi.org/pypi/clippings>`_ between releases.
 
 
 `0.5.0`_ (2019-11-24)
@@ -65,10 +65,10 @@ This document tracks changes to `clippings <https://pypi.python.org/pypi/clippin
 * [dist] Initial release.
 
 .. _`0.1.0`: https://github.com/samueldg/clippings/releases/tag/0.1.0
-.. _`0.1.1`: https://github.com/samueldg/clippings/compare/0.1.0...0.1.1
-.. _`0.1.2`: https://github.com/samueldg/clippings/compare/0.1.1...0.1.2
-.. _`0.2.0`: https://github.com/samueldg/clippings/compare/0.1.2...0.2.0
-.. _`0.2.1`: https://github.com/samueldg/clippings/compare/0.2.0...0.2.1
-.. _`0.3.0`: https://github.com/samueldg/clippings/compare/0.2.1...0.3.0
-.. _`0.4.0`: https://github.com/samueldg/clippings/compare/0.3.0...0.4.0
-.. _`0.5.0`: https://github.com/samueldg/clippings/compare/0.4.0...0.5.0
+.. _`0.1.1`: https://github.com/samueldg/clippings/releases/tag/0.1.1
+.. _`0.1.2`: https://github.com/samueldg/clippings/releases/tag/0.1.2
+.. _`0.2.0`: https://github.com/samueldg/clippings/releases/tag/0.2.0
+.. _`0.2.1`: https://github.com/samueldg/clippings/releases/tag/0.2.1
+.. _`0.3.0`: https://github.com/samueldg/clippings/releases/tag/0.3.0
+.. _`0.4.0`: https://github.com/samueldg/clippings/releases/tag/0.4.0
+.. _`0.5.0`: https://github.com/samueldg/clippings/releases/tag/0.5.0
