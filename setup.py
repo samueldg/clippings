@@ -18,6 +18,7 @@ setup(
     version=VERSION,
     description='Amazon Kindle clippings parser',
     long_description=(open('README.rst').read()),
+    long_description_content_type='text/x-rst',
     url='http://github.com/samueldg/clippings/',
     download_url = 'https://github.com/samueldg/clippings/tarball/' + VERSION,
     install_requires=REQUIREMENTS,
@@ -33,6 +34,7 @@ setup(
         ],
     },
     include_package_data=True,
+    python_requires=">=3.5",
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
