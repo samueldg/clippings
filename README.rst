@@ -30,7 +30,7 @@ Usage
 
 
 .. |pypi| image:: https://img.shields.io/pypi/v/clippings.svg
-    :target: https://pypi.python.org/pypi/clippings
+    :target: https://pypi.org/pypi/clippings
     :alt: Latest version released on PyPI
 
 .. |build| image:: https://api.travis-ci.org/samueldg/clippings.svg?branch=master
