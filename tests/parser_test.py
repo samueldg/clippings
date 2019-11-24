@@ -3,11 +3,7 @@ import json
 import os.path
 import sys
 import unittest
-
-try:
-    import unittest.mock as mock
-except ImportError:
-    import mock
+from unittest import mock
 
 from clippings.parser import Clipping
 from clippings.parser import Document
