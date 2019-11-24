@@ -1,20 +1,7 @@
 import sys
-
 from contextlib import contextmanager
-
-try:
-    # Python 2
-    from StringIO import StringIO
-except ImportError:
-    # Python 3
-    from io import StringIO
-
-try:
-    # Python 3
-    import unittest.mock as mock
-except ImportError:
-    # Python 2
-    import mock
+from io import StringIO
+from unittest.mock import patch
 
 
 @contextmanager
@@ -28,7 +15,7 @@ def cli_args(arg_list):
         python -m clippings.parser test.txt -o dict
     """
     mock_argv = ['clippings.py'] + arg_list
-    with mock.patch.object(sys, 'argv', mock_argv):
+    with patch.object(sys, 'argv', mock_argv):
         yield
 
 
