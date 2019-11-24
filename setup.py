@@ -34,6 +34,7 @@ setup(
         ],
     },
     include_package_data=True,
+    python_requires=">=3.5",
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
