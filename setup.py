@@ -1,9 +1,12 @@
+import re
 import sys
 
 from setuptools import setup
 
-from clippings import __version__
 
+with open('clippings/__init__.py') as f:
+    # Not importing the file in setup.py!
+    VERSION = re.search(r"__version__ = '(?P<version>.*?)'", f.read()).group('version')
 
 requirements = [
     'python-dateutil==2.7.5',
@@ -15,11 +18,11 @@ if sys.version_info[0] == 2:
 
 setup(
     name='clippings',
-    version=__version__,
+    version=VERSION,
     description='Amazon Kindle clippings parser',
     long_description=(open('README.rst').read()),
     url='http://github.com/samueldg/clippings/',
-    download_url = 'https://github.com/samueldg/clippings/tarball/' + __version__,
+    download_url = 'https://github.com/samueldg/clippings/tarball/' + VERSION,
     install_requires=requirements,
     license='MIT',
     author='Samuel Dion-Girardeau',
