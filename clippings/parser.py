@@ -80,8 +80,8 @@ class Metadata(BasicEqualityMixin):
     """
 
     PATTERN = re.compile(r'^- Your (?P<category>\w+) ' +
-                         r'on (page (?P<page>\d+) \| )?' +
-                         r'Location (?P<location>\d+(-\d+)?) \| ' +
+                         r'(on|at) (page (?P<page>\d+) \| )?' +
+                         r'(L|l)ocation (?P<location>\d+(-\d+)?) \| ' +
                          r'Added on (?P<timestamp>.+)$')
 
     HOUR_PATTERN = re.compile(r'0(\d:\d{2}:\d{2})')
