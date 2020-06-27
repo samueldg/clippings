@@ -5,6 +5,11 @@ Change Log
 This document tracks changes to `clippings <https://pypi.org/pypi/clippings>`_ between releases.
 
 
+`0.6.0`_ (2020-06-27)
+---------------------
+
+* [feature] Compatibility with Paperwhite 3 clippings format (@twkrol)
+
 `0.5.0`_ (2019-11-24)
 ---------------------
 
