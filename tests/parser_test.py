@@ -209,7 +209,7 @@ def test_location_equality_different_types(location_range, location_range_as_dic
     assert location_range_as_dict != location_range
 
 
-class LocationTest(unittest.TestCase, DefaultObjectFactoryMixin):
+class LocationTest(DefaultObjectFactoryMixin):
 
     object_class = Location
 
