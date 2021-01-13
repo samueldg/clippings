@@ -223,7 +223,124 @@ class LocationTest(DefaultObjectFactoryMixin):
     range_location_string = '666-1337'
 
 
-class MetadataTest(unittest.TestCase, DefaultObjectFactoryMixin):
+@pytest.fixture(name='category')
+def fixture_category():
+    return 'Highlight'
+
+
+@pytest.fixture(name='page')
+def fixture_page():
+    return 95
+
+
+@pytest.fixture(name='timestamp')
+def fixture_timestamp():
+    return datetime.datetime(2016, 9, 13, 7, 29, 9)
+
+
+@pytest.fixture(name='metadata')
+def fixture_metadata(category, location_range, page, timestamp):
+    return Metadata(
+        category=category,
+        location=location_range,
+        page=page,
+        timestamp=timestamp,
+    )
+
+
+@pytest.fixture(name='metadata_as_dict')
+def fixture_metadata_as_dict(category, location_range_as_dict, page, timestamp):
+    return {
+        'category': category,
+        'location': location_range_as_dict,
+        'page': page,
+        'timestamp': timestamp,
+    }
+
+
+def test_create_metadata(metadata, category, location_range, page, timestamp):
+    assert metadata.category == category
+    assert metadata.location == location_range
+    assert metadata.page == page
+    assert metadata.timestamp == timestamp
+
+
+def test_metadata_to_str_with_page(metadata):
+    expected_string = ('- Your Highlight on page 95 | Location 666-1337 | '
+                       'Added on Tuesday, September 13, 2016 7:29:09 AM')
+    assert str(metadata) == expected_string
+
+
+@pytest.mark.parametrize('page', [None])
+def test_metadata_to_str_without_page(metadata):
+    expected_string = ('- Your Highlight on Location 666-1337 | '
+                       'Added on Tuesday, September 13, 2016 7:29:09 AM')
+    assert str(metadata) == expected_string
+
+
+def test_metadata_to_dict(metadata, metadata_as_dict):
+    assert metadata.to_dict() == metadata_as_dict
+
+
+def test_parse_metadata_without_page(category, location_range, timestamp):
+    metadata_string = ('- Your Highlight on Location 666-1337 | '
+                       'Added on Tuesday, September 13, 2016 7:29:09 AM')
+    metadata = Metadata.parse(metadata_string)
+
+    assert metadata.category == category
+    assert metadata.location == location_range
+    assert metadata.timestamp == timestamp
+    assert metadata.page is None
+
+
+def test_parse_metadata_with_page(category, location_range, timestamp, page):
+    metadata_string = ('- Your Highlight on page 95 | Location 666-1337 | '
+                       'Added on Thursday, September 13, 2016 7:29:09 AM')
+    metadata = Metadata.parse(metadata_string)
+
+    assert metadata.category == category
+    assert metadata.location == location_range
+    assert metadata.timestamp == timestamp
+    assert metadata.page == page
+
+
+def test_parse_metadata_with_single_location(timestamp, page):
+    metadata_string = ('- Your Note on Location 20 | '
+                       'Added on Tuesday, September 13, 2016 7:29:09 AM')
+    metadata = Metadata.parse(metadata_string)
+
+    assert metadata.category == 'Note'
+    assert metadata.timestamp == timestamp
+    assert metadata.location == Location(20, 20)
+    assert metadata.page is None
+
+
+def test_metadata_equality_same_values(metadata, category, location_range, page, timestamp):
+    other_metadata = Metadata(
+        category=category,
+        location=location_range,
+        page=page,
+        timestamp=timestamp,
+    )
+    assert other_metadata is not metadata
+    assert other_metadata == metadata
+
+
+def test_metadata_equality_different_values(metadata, category, location_range, timestamp):
+    other_metadata = Metadata(
+        category=category,
+        location=location_range,
+        page=None,
+        timestamp=timestamp,
+    )
+    assert other_metadata != metadata
+
+
+def test_metadata_equality_different_types(metadata, metadata_as_dict):
+    assert metadata != metadata_as_dict
+
+
+class MetadataTest(DefaultObjectFactoryMixin):
 
     object_class = Metadata
 
@@ -233,77 +350,6 @@ class MetadataTest(unittest.TestCase, DefaultObjectFactoryMixin):
         'page': 95,
         'timestamp': datetime.datetime(2016, 9, 13, 7, 29, 9),
     }
-
-    def test_create_metadata(self):
-        metadata = self.get_default_object()
-        self.assertEqual(self.defaults['category'], metadata.category)
-        self.assertEqual(self.defaults['location'], metadata.location)
-        self.assertEqual(self.defaults['page'], metadata.page)
-        self.assertEqual(self.defaults['timestamp'], metadata.timestamp)
-
-    def test_metadata_to_str_without_page(self):
-        metadata = self.get_default_object(page=None)
-        expected_string = ('- Your Highlight on Location 666-1337 | '
-                           'Added on Tuesday, September 13, 2016 7:29:09 AM')
-        self.assertEqual(expected_string, str(metadata))
-
-    def test_metadata_to_str_with_page(self):
-        metadata = self.get_default_object()
-        expected_string = ('- Your Highlight on page 95 | Location 666-1337 | '
-                           'Added on Tuesday, September 13, 2016 7:29:09 AM')
-        self.assertEqual(expected_string, str(metadata))
-
-    def test_metadata_to_dict(self):
-        metadata = self.get_default_object()
-        expected_dict = self.defaults.copy()
-        expected_dict['location'] = expected_dict['location'].to_dict()
-        self.assertEqual(expected_dict, metadata.to_dict())
-
-    def test_parse_metadata_without_page(self):
-        metadata_string = ('- Your Highlight on Location 666-1337 | '
-                           'Added on Tuesday, September 13, 2016 7:29:09 AM')
-        metadata = Metadata.parse(metadata_string)
-
-        self.assertEqual(self.defaults['category'], metadata.category)
-        self.assertEqual(self.defaults['location'], metadata.location)
-        self.assertEqual(self.defaults['timestamp'], metadata.timestamp)
-        self.assertEqual(None, metadata.page)
-
-    def test_parse_metadata_with_page(self):
-        metadata_string = ('- Your Highlight on page 95 | Location 666-1337 | '
-                           'Added on Thursday, September 13, 2016 7:29:09 AM')
-        metadata = Metadata.parse(metadata_string)
-
-        self.assertEqual(self.defaults['category'], metadata.category)
-        self.assertEqual(self.defaults['location'], metadata.location)
-        self.assertEqual(self.defaults['timestamp'], metadata.timestamp)
-        self.assertEqual(self.defaults['page'], metadata.page)
-
-    def test_parse_metadata_with_single_location(self):
-        metadata_string = ('- Your Note on Location 20 | '
-                           'Added on Tuesday, September 13, 2016 7:29:09 AM')
-        metadata = Metadata.parse(metadata_string)
-
-        self.assertEqual('Note', metadata.category)
-        self.assertEqual(self.defaults['timestamp'], metadata.timestamp)
-        self.assertEqual(Location(20, 20), metadata.location)
-        self.assertEqual(None, metadata.page)
-
-    def test_equality_same_values(self):
-        metadata1 = self.get_default_object()
-        metadata2 = self.get_default_object()
-        self.assertFalse(metadata1 is metadata2)
-        self.assertEqual(metadata1, metadata2)
-
-    def test_equality_different_values(self):
-        metadata1 = self.get_default_object()
-        metadata2 = self.get_default_object(page=None)
-        self.assertNotEqual(metadata1, metadata2)
-
-    def test_equality_different_types(self):
-        metadata = self.get_default_object()
-        not_a_metadata = self.defaults
-        self.assertNotEqual(metadata, not_a_metadata)
 
 
 class ClippingTest(unittest.TestCase, DefaultObjectFactoryMixin):
