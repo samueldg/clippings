@@ -17,6 +17,9 @@ from clippings.parser import as_kindle
 from clippings.parser import parse_clippings
 
 
+TEST_RESOURCES_DIR = os.path.join('tests', 'resources')
+
+
 class DefaultObjectFactoryMixin:
 
     object_class = NotImplemented
@@ -415,8 +418,6 @@ class ClippingTest(unittest.TestCase, DefaultObjectFactoryMixin):
 
 class ClippingFileParsingTest(unittest.TestCase):
 
-    test_resources_dir = os.path.join('tests', 'resources')
-
     @property
     def maxDiff(self):
         """See the full diff upon failure, for these tests."""
@@ -426,7 +427,7 @@ class ClippingFileParsingTest(unittest.TestCase):
 
         clippings = self._parse_sample_clippings_file()
 
-        results_file_path = os.path.join(self.test_resources_dir, 'clippings.json')
+        results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.json')
         with open(results_file_path) as results_file:
             expected_results = json.load(results_file)
         actual_results = as_json(clippings)
@@ -438,7 +439,7 @@ class ClippingFileParsingTest(unittest.TestCase):
         clippings = self._parse_sample_clippings_file()
 
         # Parse the Kindle file, then regenerate it, and compare.
-        results_file_path = os.path.join(self.test_resources_dir, 'clippings.txt')
+        results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.txt')
         with open(results_file_path) as results_file:
             expected_results = results_file.read()
         actual_results = as_kindle(clippings)
@@ -449,7 +450,7 @@ class ClippingFileParsingTest(unittest.TestCase):
         clippings = self._parse_sample_clippings_file()
 
         # Compare the actual results against a JSON of expected results
-        results_file_path = os.path.join(self.test_resources_dir, 'clippings.dict')
+        results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.dict')
         with open(results_file_path) as results_file:
             expected_results = eval(results_file.read())
         actual_results = as_dicts(clippings)
@@ -462,7 +463,7 @@ class ClippingFileParsingTest(unittest.TestCase):
         In the process, we validate the correct number of clippings were parsed,
         so test failures are caught early."""
 
-        clippings_file_path = os.path.join(self.test_resources_dir, 'clippings.txt')
+        clippings_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.txt')
 
         with open(clippings_file_path, 'r') as clippings_file:
             clippings = parse_clippings(clippings_file)
