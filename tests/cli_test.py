@@ -1,8 +1,24 @@
+import sys
+from contextlib import contextmanager
 from unittest import mock
+from unittest.mock import patch
 
 from clippings.parser import main as parser_main
 
-from .utils.context import cli_args
+
+@contextmanager
+def cli_args(arg_list):
+    """Context manager to mock sys.argv to fake the program was called with
+    the arguments in arg_list.
+
+    E.g.
+        cli_args(['test.txt', '-o', 'dict'])
+    Corresponds to :
+        python -m clippings.parser test.txt -o dict
+    """
+    mock_argv = ['clippings.py'] + arg_list
+    with patch.object(sys, 'argv', mock_argv):
+        yield
 
 
 def test_output_format_json(capsys):
