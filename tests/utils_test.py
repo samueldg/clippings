@@ -21,4 +21,4 @@ def test_datetime_encoder_typeerror():
     undumpable_dictionary = {"set": set()}
     # Ensure we let the parent raise TypeError
     with pytest.raises(TypeError):
-        json_string = json.dumps(undumpable_dictionary, cls=DatetimeJSONEncoder)
+        json.dumps(undumpable_dictionary, cls=DatetimeJSONEncoder)
