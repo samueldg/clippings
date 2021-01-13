@@ -1,7 +1,6 @@
 import datetime
 import json
 import os.path
-import unittest
 from copy import deepcopy
 from unittest.mock import Mock
 
@@ -371,59 +370,48 @@ def test_clipping_equality_different_types(clipping):
     assert clipping != clipping.to_dict()
 
 
-class ClippingFileParsingTest(unittest.TestCase):
+@pytest.fixture(name='parsed_clippings')
+def fixture_parsed_clippings():
+    """Parse the clippings.txt file in the test resources, and returns
+    the list of Clipping objects.
 
-    @property
-    def maxDiff(self):
-        """See the full diff upon failure, for these tests."""
-        return None
+    In the process, we validate the correct number of clippings were parsed,
+    so test failures are caught early.
+    """
 
-    def test_parse_clippings_file_to_json(self):
+    clippings_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.txt')
 
-        clippings = self._parse_sample_clippings_file()
+    with open(clippings_file_path, 'r') as clippings_file:
+        clippings = parse_clippings(clippings_file)
 
-        results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.json')
-        with open(results_file_path) as results_file:
-            expected_results = json.load(results_file)
-        actual_results = as_json(clippings)
-        actual_results = json.loads(actual_results)
-        self.assertEqual(expected_results, actual_results)
+    assert clippings is not None
+    assert len(clippings) == 5, '5 clippings should be parsed!'
 
-    def test_parse_clippings_file_to_kindle(self):
+    return clippings
 
-        clippings = self._parse_sample_clippings_file()
 
-        # Parse the Kindle file, then regenerate it, and compare.
-        results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.txt')
-        with open(results_file_path) as results_file:
-            expected_results = results_file.read()
-        actual_results = as_kindle(clippings)
-        self.assertEqual(expected_results, actual_results)
+def test_parse_clippings_file_to_json(parsed_clippings):
+    results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.json')
+    with open(results_file_path) as results_file:
+        expected_results = json.load(results_file)
+    actual_results = as_json(parsed_clippings)
+    actual_results = json.loads(actual_results)
+    assert actual_results == expected_results
 
-    def test_parse_clippings_file_to_dict(self):
 
-        clippings = self._parse_sample_clippings_file()
+def test_parse_clippings_file_to_kindle(parsed_clippings):
+    # Parse the Kindle file, then regenerate it, and compare.
+    results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.txt')
+    with open(results_file_path) as results_file:
+        expected_results = results_file.read()
+    actual_results = as_kindle(parsed_clippings)
+    assert actual_results == expected_results
 
-        # Compare the actual results against a JSON of expected results
-        results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.dict')
-        with open(results_file_path) as results_file:
-            expected_results = eval(results_file.read())
-        actual_results = as_dicts(clippings)
-        self.assertEqual(expected_results, actual_results)
 
-    def _parse_sample_clippings_file(self):
-        """Parse the clippings.txt file in the test resources, and returns
-        the list of Clipping objects.
-
-        In the process, we validate the correct number of clippings were parsed,
-        so test failures are caught early."""
-
-        clippings_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.txt')
-
-        with open(clippings_file_path, 'r') as clippings_file:
-            clippings = parse_clippings(clippings_file)
-
-        self.assertIsNotNone(clippings)
-        self.assertEqual(5, len(clippings), '5 clippings should be parsed!')
-
-        return clippings
+def test_parse_clippings_file_to_dict(parsed_clippings):
+    # Compare the actual results against a JSON of expected results
+    results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.dict')
+    with open(results_file_path) as results_file:
+        expected_results = eval(results_file.read())
+    actual_results = as_dicts(parsed_clippings)
+    assert actual_results == expected_results
