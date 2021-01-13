@@ -4,6 +4,10 @@ Change Log
 
 This document tracks changes to `clippings <https://pypi.org/pypi/clippings>`_ between releases.
 
+master (WIP)
+---------------------
+
+* [misc] Ditch HTTP links in docs, in favor of HTTPS
 
 `0.6.0`_ (2020-06-27)
 ---------------------
