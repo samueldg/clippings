@@ -12,6 +12,7 @@ master (WIP)
 * [dist] Add support for Python 3.9.
 * [dist] Drop support for Python 3.5.
 * [misc] Switch CI over to GitHub actions.
+* [test] Convert tests from unittest style to pytest style.
 
 `0.6.0`_ (2020-06-27)
 ---------------------
