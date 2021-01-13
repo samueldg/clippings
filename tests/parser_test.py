@@ -118,6 +118,97 @@ class DocumentTest(DefaultObjectFactoryMixin):
     default_object_string = '1984 (George Orwell)'
 
 
+@pytest.fixture(scope='module', name='location_begin')
+def fixture_location_begin():
+    return 666
+
+
+@pytest.fixture(scope='module', name='location_end')
+def fixture_location_end():
+    return 1337
+
+
+@pytest.fixture(scope='module', name='location_range')
+def fixture_location_range(location_begin, location_end):
+    return Location(
+        begin=location_begin,
+        end=location_end,
+    )
+
+
+@pytest.fixture(scope='module', name='location_single')
+def fixture_location_single(location_begin):
+    return Location(
+        begin=location_begin,
+        end=location_begin,
+    )
+
+
+@pytest.fixture(scope='module', name='location_range_as_str')
+def fixture_location_range_as_str():
+    return '666-1337'
+
+
+@pytest.fixture(scope='module', name='location_single_as_str')
+def fixture_location_single_as_str(location_begin):
+    return '666'
+
+
+@pytest.fixture(scope='module', name='location_range_as_dict')
+def fixture_location_range_as_dict(location_begin, location_end):
+    return {
+        'begin': location_begin,
+        'end': location_end,
+    }
+
+
+def test_create_location(location_range, location_begin, location_end):
+    assert location_range.begin == location_begin
+    assert location_range.end == location_end
+
+
+def test_parse_range_location(location_range_as_str, location_begin, location_end):
+    location = Location.parse(location_range_as_str)
+    assert location.begin == location_begin
+    assert location.end == location_end
+
+
+def test_parse_single_location(location_single_as_str, location_begin):
+    location = Location.parse(location_single_as_str)
+    assert location.begin == location_begin
+    assert location.end == location_begin
+
+
+def test_location_to_dict(location_range, location_range_as_dict):
+    assert location_range.to_dict() == location_range_as_dict
+
+
+def test_range_location_to_str(location_range, location_range_as_str):
+    assert str(location_range) == location_range_as_str
+
+
+def test_single_location_to_str(location_single, location_single_as_str):
+    assert str(location_single) == location_single_as_str
+
+
+def test_location_equality_same_values(location_range, location_range_as_dict):
+    other_location = Location(**location_range_as_dict)
+    assert other_location is not location_range
+    assert other_location == location_range
+
+
+def test_location_equality_different_values(location_range, location_range_as_dict):
+    other_location_kwargs = deepcopy(location_range_as_dict)
+    other_location_kwargs['end'] += 1
+    other_location = Location(**other_location_kwargs)
+    assert other_location != location_range
+
+
+def test_location_equality_different_types(location_range, location_range_as_dict):
+    assert location_range != location_range_as_dict
+    assert location_range_as_dict != location_range
+
+
 class LocationTest(unittest.TestCase, DefaultObjectFactoryMixin):
 
     object_class = Location
@@ -130,51 +221,6 @@ class LocationTest(unittest.TestCase, DefaultObjectFactoryMixin):
     single_location_string = '666'
 
     range_location_string = '666-1337'
-
-    def test_create_location(self):
-        location = self.get_default_object()
-        self.assertEqual(self.defaults['begin'], location.begin)
-        self.assertEqual(self.defaults['end'], location.end)
-
-    def test_parse_range_location(self):
-        location_string = self.range_location_string
-        location = Location.parse(location_string)
-        self.assertEqual(self.defaults['begin'], location.begin)
-        self.assertEqual(self.defaults['end'], location.end)
-
-    def test_parse_single_location(self):
-        location_string = self.single_location_string
-        location = Location.parse(location_string)
-        self.assertEqual(self.defaults['begin'], location.begin)
-        self.assertEqual(self.defaults['begin'], location.end)
-
-    def test_location_to_dict(self):
-        location = self.get_default_object()
-        self.assertEqual(self.defaults, location.to_dict())
-
-    def test_range_location_to_str(self):
-        location = self.get_default_object()
-        self.assertEqual(self.range_location_string, str(location))
-
-    def test_single_location_to_str(self):
-        location = self.get_default_object(end=self.defaults['begin'])
-        self.assertEqual(self.single_location_string, str(location))
-
-    def test_equality_same_values(self):
-        location1 = self.get_default_object()
-        location2 = self.get_default_object()
-        self.assertFalse(location1 is location2)
-        self.assertEqual(location1, location2)
-
-    def test_equality_different_values(self):
-        location1 = self.get_default_object()
-        location2 = self.get_default_object(end=self.defaults['end'] + 1)
-        self.assertNotEqual(location1, location2)
-
-    def test_equality_different_types(self):
-        location = self.get_default_object()
-        not_a_location = self.defaults
-        self.assertNotEqual(location, not_a_location)
 
 
 class MetadataTest(unittest.TestCase, DefaultObjectFactoryMixin):
