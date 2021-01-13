@@ -4,7 +4,7 @@ Change Log
 
 This document tracks changes to `clippings <https://pypi.org/pypi/clippings>`_ between releases.
 
-master (WIP)
+`0.7.0`_ (2021-01-13)
 ---------------------
 
 * [fix] Compatibility with latest clippings file format (capitalized "Page") (@rjalexa)
@@ -88,3 +88,4 @@ master (WIP)
 .. _`0.4.0`: https://github.com/samueldg/clippings/releases/tag/0.4.0
 .. _`0.5.0`: https://github.com/samueldg/clippings/releases/tag/0.5.0
 .. _`0.6.0`: https://github.com/samueldg/clippings/releases/tag/0.6.0
+.. _`0.7.0`: https://github.com/samueldg/clippings/releases/tag/0.7.0
