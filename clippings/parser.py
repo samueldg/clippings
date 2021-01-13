@@ -81,8 +81,8 @@ class Metadata(BasicEqualityMixin):
 
     PATTERN = re.compile(
         r'^- Your (?P<category>\w+) '
-        r'(on|at) (page (?P<page>\d+) \| )?'
-        r'(L|l)ocation (?P<location>\d+(-\d+)?) \| '
+        r'(on|at) ([Pp]age (?P<page>\d+) \| )?'
+        r'[Ll]ocation (?P<location>\d+(-\d+)?) \| '
         r'Added on (?P<timestamp>.+)$'
     )
 

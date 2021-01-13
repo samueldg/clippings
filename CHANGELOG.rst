@@ -7,6 +7,7 @@ This document tracks changes to `clippings <https://pypi.org/pypi/clippings>`_ b
 master (WIP)
 ---------------------
 
+* [fix] Compatibility with latest clippings file format (capitalized "Page") (@rjalexa)
 * [misc] Ditch HTTP links in docs, in favor of HTTPS
 * [misc] Better qualify dev dependencies
 * [dist] Add support for Python 3.9.

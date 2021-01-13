@@ -248,9 +248,17 @@ def test_parse_metadata_without_page(category, location_range, timestamp):
     assert metadata.page is None
 
 
-def test_parse_metadata_with_page(category, location_range, timestamp, page):
-    metadata_string = ('- Your Highlight on page 95 | Location 666-1337 | '
-                       'Added on Thursday, September 13, 2016 7:29:09 AM')
+# Make sure we support both capitalization styles,
+# see https://github.com/samueldg/clippings/issues/25
+@pytest.mark.parametrize('page_str', [
+    'page 95',
+    'Page 95',
+])
+def test_parse_metadata_with_page(page_str, category, location_range, timestamp, page):
+    metadata_string = (
+        '- Your Highlight on {0} | Location 666-1337 | '.format(page_str) +
+        'Added on Thursday, September 13, 2016 7:29:09 AM'
+    )
     metadata = Metadata.parse(metadata_string)
 
     assert metadata.category == category
@@ -370,22 +378,21 @@ def test_clipping_equality_different_types(clipping):
     assert clipping != clipping.to_dict()
 
 
+@pytest.fixture(name='clippings_filename')
+def fixture_clippings_filename():
+    return 'clippings.txt'
+
+
 @pytest.fixture(name='parsed_clippings')
-def fixture_parsed_clippings():
+def fixture_parsed_clippings(clippings_filename):
     """Parse the clippings.txt file in the test resources, and returns
     the list of Clipping objects.
-
-    In the process, we validate the correct number of clippings were parsed,
-    so test failures are caught early.
     """
 
-    clippings_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.txt')
+    clippings_file_path = os.path.join(TEST_RESOURCES_DIR, clippings_filename)
 
     with open(clippings_file_path, 'r') as clippings_file:
         clippings = parse_clippings(clippings_file)
-
-    assert clippings is not None
-    assert len(clippings) == 5, '5 clippings should be parsed!'
 
     return clippings
 
@@ -414,4 +421,15 @@ def test_parse_clippings_file_to_dict(parsed_clippings):
     with open(results_file_path) as results_file:
         expected_results = eval(results_file.read())
     actual_results = as_dicts(parsed_clippings)
+    assert actual_results == expected_results
+
+
+@pytest.mark.parametrize('clippings_filename', ['clippings-new-format.txt'])
+def test_parse_clippings_file_new_format_to_dict(parsed_clippings):
+    # Compare the actual results against a JSON of expected results
+    results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings-new-format.json')
+    with open(results_file_path) as results_file:
+        expected_results = json.load(results_file)
+    actual_results = as_json(parsed_clippings)
+    actual_results = json.loads(actual_results)
     assert actual_results == expected_results
