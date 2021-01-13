@@ -38,17 +38,17 @@ class DefaultObjectFactoryMixin:
         return cls.object_class(**params)
 
 
-@pytest.fixture(scope='module', name='document_title')
+@pytest.fixture(name='document_title')
 def fixture_document_title():
     return '1984'
 
 
-@pytest.fixture(scope='module', name='document_authors')
+@pytest.fixture(name='document_authors')
 def fixture_document_authors():
     return 'George Orwell'
 
 
-@pytest.fixture(scope='module', name='document')
+@pytest.fixture(name='document')
 def fixture_document(document_title, document_authors):
     return Document(
         title=document_title,
@@ -56,12 +56,12 @@ def fixture_document(document_title, document_authors):
     )
 
 
-@pytest.fixture(scope='module', name='document_as_str')
+@pytest.fixture(name='document_as_str')
 def fixture_document_as_str():
     return '1984 (George Orwell)'
 
 
-@pytest.fixture(scope='module', name='document_as_dict')
+@pytest.fixture(name='document_as_dict')
 def fixture_document_as_dict(document_title, document_authors):
     return {
         'title': document_title,
@@ -118,17 +118,17 @@ class DocumentTest(DefaultObjectFactoryMixin):
     default_object_string = '1984 (George Orwell)'
 
 
-@pytest.fixture(scope='module', name='location_begin')
+@pytest.fixture(name='location_begin')
 def fixture_location_begin():
     return 666
 
 
-@pytest.fixture(scope='module', name='location_end')
+@pytest.fixture(name='location_end')
 def fixture_location_end():
     return 1337
 
 
-@pytest.fixture(scope='module', name='location_range')
+@pytest.fixture(name='location_range')
 def fixture_location_range(location_begin, location_end):
     return Location(
         begin=location_begin,
@@ -136,7 +136,7 @@ def fixture_location_range(location_begin, location_end):
     )
 
 
-@pytest.fixture(scope='module', name='location_single')
+@pytest.fixture(name='location_single')
 def fixture_location_single(location_begin):
     return Location(
         begin=location_begin,
@@ -144,17 +144,17 @@ def fixture_location_single(location_begin):
     )
 
 
-@pytest.fixture(scope='module', name='location_range_as_str')
+@pytest.fixture(name='location_range_as_str')
 def fixture_location_range_as_str():
     return '666-1337'
 
 
-@pytest.fixture(scope='module', name='location_single_as_str')
+@pytest.fixture(name='location_single_as_str')
 def fixture_location_single_as_str(location_begin):
     return '666'
 
 
-@pytest.fixture(scope='module', name='location_range_as_dict')
+@pytest.fixture(name='location_range_as_dict')
 def fixture_location_range_as_dict(location_begin, location_end):
     return {
         'begin': location_begin,
