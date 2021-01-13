@@ -2,7 +2,10 @@ import datetime
 import json
 import os.path
 import unittest
+from copy import deepcopy
 from unittest import mock
+
+import pytest
 
 from clippings.parser import Clipping
 from clippings.parser import Document
@@ -35,7 +38,75 @@ class DefaultObjectFactoryMixin:
         return cls.object_class(**params)
 
 
-class DocumentTest(unittest.TestCase, DefaultObjectFactoryMixin):
+@pytest.fixture(scope='module', name='document_title')
+def fixture_document_title():
+    return '1984'
+
+
+@pytest.fixture(scope='module', name='document_authors')
+def fixture_document_authors():
+    return 'George Orwell'
+
+
+@pytest.fixture(scope='module', name='document')
+def fixture_document(document_title, document_authors):
+    return Document(
+        title=document_title,
+        authors=document_authors,
+    )
+
+
+@pytest.fixture(scope='module', name='document_as_str')
+def fixture_document_as_str():
+    return '1984 (George Orwell)'
+
+
+@pytest.fixture(scope='module', name='document_as_dict')
+def fixture_document_as_dict(document_title, document_authors):
+    return {
+        'title': document_title,
+        'authors': document_authors,
+    }
+
+
+def test_create_document(document, document_title, document_authors):
+    assert document.title == document_title
+    assert document.authors == document_authors
+
+
+def test_parse_document(document_as_str, document_title, document_authors):
+    document = Document.parse(document_as_str)
+    assert document.authors == document_authors
+    assert document.title == document_title
+
+
+def test_document_to_string(document, document_as_str):
+    assert str(document) == document_as_str
+
+
+def test_document_to_dict(document, document_as_dict):
+    assert document.to_dict() == document_as_dict
+
+
+def test_equality_same_values(document, document_as_dict):
+    other_document = Document(**document_as_dict)
+    assert other_document is not document
+    assert other_document == document
+
+
+def test_equality_different_values(document, document_as_dict):
+    other_document_kwargs = deepcopy(document_as_dict)
+    other_document_kwargs['authors'] = 'Lewis Carroll'
+    other_document = Document(**other_document_kwargs)
+    assert other_document != document
+
+
+def test_equality_different_types(document, document_as_dict):
+    assert document != document_as_dict
+    assert document_as_dict != document
+
+
+class DocumentTest(DefaultObjectFactoryMixin):
 
     object_class = Document
 
@@ -45,40 +116,6 @@ class DocumentTest(unittest.TestCase, DefaultObjectFactoryMixin):
     }
 
     default_object_string = '1984 (George Orwell)'
-
-    def test_create_document(self):
-        document = self.get_default_object()
-        self.assertEqual(self.defaults['title'], document.title)
-        self.assertEqual(self.defaults['authors'], document.authors)
-
-    def test_parse_document(self):
-        document = Document.parse(self.default_object_string)
-        self.assertEqual(self.defaults['authors'], document.authors)
-        self.assertEqual(self.defaults['title'], document.title)
-
-    def test_document_to_string(self):
-        document = self.get_default_object()
-        self.assertEqual(self.default_object_string, str(document))
-
-    def test_document_to_dict(self):
-        document = self.get_default_object()
-        self.assertEqual(self.defaults, document.to_dict())
-
-    def test_equality_same_values(self):
-        document1 = self.get_default_object()
-        document2 = self.get_default_object()
-        self.assertFalse(document1 is document2)
-        self.assertEqual(document1, document2)
-
-    def test_equality_different_values(self):
-        document1 = self.get_default_object()
-        document2 = self.get_default_object(authors='Lewis Carroll')
-        self.assertNotEqual(document1, document2)
-
-    def test_equality_different_types(self):
-        document = self.get_default_object()
-        not_a_document = self.defaults
-        self.assertNotEqual(document, not_a_document)
 
 
 class LocationTest(unittest.TestCase, DefaultObjectFactoryMixin):
