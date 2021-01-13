@@ -33,8 +33,8 @@ Usage
     :target: https://pypi.org/pypi/clippings
     :alt: Latest version released on PyPI
 
-.. |build| image:: https://api.travis-ci.org/samueldg/clippings.svg?branch=master
-    :target: https://travis-ci.org/samueldg/clippings
+.. |build| image:: https://github.com/samueldg/clippings/workflows/Run%20tests/badge.svg
+    :target: https://github.com/samueldg/clippings/actions
     :alt: Build status
 
 .. |coverage| image:: https://coveralls.io/repos/github/samueldg/clippings/badge.svg?branch=master
