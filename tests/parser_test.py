@@ -3,7 +3,7 @@ import json
 import os.path
 import unittest
 from copy import deepcopy
-from unittest import mock
+from unittest.mock import Mock
 
 import pytest
 
@@ -343,77 +343,79 @@ def test_metadata_equality_different_types(metadata, metadata_as_dict):
     assert metadata != metadata_as_dict
 
 
-class MetadataTest(DefaultObjectFactoryMixin):
+@pytest.fixture(name='content')
+def fixture_content():
+    'Some \n content'
 
-    object_class = Metadata
 
-    defaults = {
-        'category': 'Highlight',
-        'location': LocationTest.get_default_object(),
-        'page': 95,
-        'timestamp': datetime.datetime(2016, 9, 13, 7, 29, 9),
+@pytest.fixture(name='clipping')
+def fixture_clipping(document, metadata, content):
+    return Clipping(
+        document=document,
+        metadata=metadata,
+        content=content,
+    )
+
+
+def test_create_clipping(clipping, document, metadata, content):
+    assert clipping.document == document
+    assert clipping.metadata == metadata
+    assert clipping.content == content
+
+
+def test_clipping_to_str():
+    document = Mock()
+    document.__str__ = Mock(return_value='Title (Author)')
+    metadata = Mock()
+    metadata.__str__ = Mock(return_value='SO META!')
+    content = 'Some content'
+    clipping = Clipping(document, metadata, content)
+
+    expected_string = "Title (Author)\nSO META!\nSome content"
+
+    assert str(clipping) == expected_string
+
+
+def test_clipping_to_dict():
+    document = Mock()
+    document.to_dict = Mock(return_value={'doc': 'ument'})
+    metadata = Mock()
+    metadata.to_dict = Mock(return_value={'meta': 'data'})
+    content = 'Some content'
+    clipping = Clipping(document, metadata, content)
+
+    expected_dict = {
+        'content': 'Some content',
+        'document': {'doc': 'ument'},
+        'metadata': {'meta': 'data'},
     }
 
+    assert clipping.to_dict() == expected_dict
 
-class ClippingTest(unittest.TestCase, DefaultObjectFactoryMixin):
 
-    object_class = Clipping
+def test_clipping_equality_same_values(clipping, document, metadata, content):
+    other_clipping = Clipping(
+        document=document,
+        metadata=metadata,
+        content=content,
+    )
 
-    defaults = {
-        'document': DocumentTest.get_default_object(),
-        'metadata': MetadataTest.get_default_object(),
-        'content': 'Some \n content'
-    }
+    assert other_clipping is not clipping
+    assert other_clipping == clipping
 
-    def test_create_clipping(self):
-        clipping = self.get_default_object()
-        self.assertEqual(self.defaults['document'], clipping.document)
-        self.assertEqual(self.defaults['metadata'], clipping.metadata)
-        self.assertEqual(self.defaults['content'], clipping.content)
 
-    def test_clipping_to_str(self):
-        document = mock.MagicMock()
-        document.__str__ = mock.MagicMock(return_value='Title (Author)')
-        metadata = mock.MagicMock()
-        metadata.__str__ = mock.MagicMock(return_value='SO META!')
-        content = 'Some content'
+def test_clipping_equality_different_values(clipping, document, metadata):
+    other_clipping = Clipping(
+        document=document,
+        metadata=metadata,
+        content='Different content',
+    )
 
-        expected_string = "Title (Author)\nSO META!\nSome content"
+    assert other_clipping != clipping
 
-        clipping = Clipping(document, metadata, content)
-        self.assertEqual(expected_string, str(clipping))
 
-    def test_clipping_to_dict(self):
-        document = mock.MagicMock()
-        document.to_dict = mock.MagicMock(return_value={'doc': 'ument'})
-        metadata = mock.MagicMock()
-        metadata.to_dict = mock.MagicMock(return_value={'meta': 'data'})
-        content = 'Some content'
-
-        expected_dict = {
-            'content': 'Some content',
-            'document': {'doc': 'ument'},
-            'metadata': {'meta': 'data'},
-        }
-
-        clipping = Clipping(document, metadata, content)
-        self.assertEqual(expected_dict, clipping.to_dict())
-
-    def test_equality_same_values(self):
-        clipping1 = self.get_default_object()
-        clipping2 = self.get_default_object()
-        self.assertFalse(clipping1 is clipping2)
-        self.assertEqual(clipping1, clipping2)
-
-    def test_equality_different_values(self):
-        clipping1 = self.get_default_object()
-        clipping2 = self.get_default_object(content='Different')
-        self.assertNotEqual(clipping1, clipping2)
-
-    def test_equality_different_types(self):
-        clipping = self.get_default_object()
-        not_a_clipping = self.defaults
-        self.assertNotEqual(clipping, not_a_clipping)
+def test_clipping_equality_different_types(clipping):
+    assert clipping != clipping.to_dict()
 
 
 class ClippingFileParsingTest(unittest.TestCase):
