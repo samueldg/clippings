@@ -1,0 +1,14 @@
+[flake8]
+
+filename = *.py
+
+exclude =
+    *.egg-info
+    .git/
+    .github/
+    .pytest_cache/
+    .venv/
+    __pycache__
+    htmlcov
+
+max-line-length = 99
