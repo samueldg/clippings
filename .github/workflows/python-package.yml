@@ -6,8 +6,12 @@ name: Run tests
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - '**.rst'
   pull_request:
     branches: [ master ]
+    paths-ignore:
+      - '**.rst'
 
 jobs:
   build:
