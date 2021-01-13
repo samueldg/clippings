@@ -31,7 +31,7 @@ class DefaultObjectFactoryMixin:
         Any kwarg will be used to overwrite these defaults.
 
         A class using this needs to have two class attributes:
-          - object_class: the class to instanciate
+          - object_class: the class to instantiate
           - defaults: default kwargs that will be passed to the class __init__.
         """
 
