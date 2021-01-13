@@ -88,20 +88,20 @@ def test_document_to_dict(document, document_as_dict):
     assert document.to_dict() == document_as_dict
 
 
-def test_equality_same_values(document, document_as_dict):
+def test_document_equality_same_values(document, document_as_dict):
     other_document = Document(**document_as_dict)
     assert other_document is not document
     assert other_document == document
 
 
-def test_equality_different_values(document, document_as_dict):
+def test_document_equality_different_values(document, document_as_dict):
     other_document_kwargs = deepcopy(document_as_dict)
     other_document_kwargs['authors'] = 'Lewis Carroll'
     other_document = Document(**other_document_kwargs)
     assert other_document != document
 
 
-def test_equality_different_types(document, document_as_dict):
+def test_document_equality_different_types(document, document_as_dict):
     assert document != document_as_dict
     assert document_as_dict != document
 
