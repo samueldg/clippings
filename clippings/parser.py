@@ -79,10 +79,12 @@ class Metadata(BasicEqualityMixin):
         - The page within the document (not always present).
     """
 
-    PATTERN = re.compile(r'^- Your (?P<category>\w+) ' +
-                         r'(on|at) (page (?P<page>\d+) \| )?' +
-                         r'(L|l)ocation (?P<location>\d+(-\d+)?) \| ' +
-                         r'Added on (?P<timestamp>.+)$')
+    PATTERN = re.compile(
+        r'^- Your (?P<category>\w+) '
+        r'(on|at) (page (?P<page>\d+) \| )?'
+        r'(L|l)ocation (?P<location>\d+(-\d+)?) \| '
+        r'Added on (?P<timestamp>.+)$'
+    )
 
     HOUR_PATTERN = re.compile(r'0(\d:\d{2}:\d{2})')
 
