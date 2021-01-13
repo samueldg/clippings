@@ -20,27 +20,6 @@ from clippings.parser import parse_clippings
 TEST_RESOURCES_DIR = os.path.join('tests', 'resources')
 
 
-class DefaultObjectFactoryMixin:
-
-    object_class = NotImplemented
-
-    defaults = NotImplemented
-
-    @classmethod
-    def get_default_object(cls, **kwargs):
-        """Return an object with the class defaults as arguments.
-        Any kwarg will be used to overwrite these defaults.
-
-        A class using this needs to have two class attributes:
-          - object_class: the class to instantiate
-          - defaults: default kwargs that will be passed to the class __init__.
-        """
-
-        params = cls.defaults.copy()
-        params.update(kwargs)
-        return cls.object_class(**params)
-
-
 @pytest.fixture(name='document_title')
 def fixture_document_title():
     return '1984'
@@ -107,18 +86,6 @@ def test_document_equality_different_values(document, document_as_dict):
 def test_document_equality_different_types(document, document_as_dict):
     assert document != document_as_dict
     assert document_as_dict != document
-
-
-class DocumentTest(DefaultObjectFactoryMixin):
-
-    object_class = Document
-
-    defaults = {
-        'title': '1984',
-        'authors': 'George Orwell',
-    }
-
-    default_object_string = '1984 (George Orwell)'
 
 
 @pytest.fixture(name='location_begin')
@@ -210,20 +177,6 @@ def test_location_equality_different_values(location_range, location_range_as_di
 def test_location_equality_different_types(location_range, location_range_as_dict):
     assert location_range != location_range_as_dict
     assert location_range_as_dict != location_range
-
-
-class LocationTest(DefaultObjectFactoryMixin):
-
-    object_class = Location
-
-    defaults = {
-        'begin': 666,
-        'end': 1337,
-    }
-
-    single_location_string = '666'
-
-    range_location_string = '666-1337'
 
 
 @pytest.fixture(name='category')
