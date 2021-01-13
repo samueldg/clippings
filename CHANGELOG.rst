@@ -8,6 +8,7 @@ master (WIP)
 ---------------------
 
 * [misc] Ditch HTTP links in docs, in favor of HTTPS
+* [misc] Better qualify dev dependencies
 
 `0.6.0`_ (2020-06-27)
 ---------------------
