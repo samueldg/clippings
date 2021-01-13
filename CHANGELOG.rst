@@ -77,3 +77,4 @@ This document tracks changes to `clippings <https://pypi.org/pypi/clippings>`_ b
 .. _`0.3.0`: https://github.com/samueldg/clippings/releases/tag/0.3.0
 .. _`0.4.0`: https://github.com/samueldg/clippings/releases/tag/0.4.0
 .. _`0.5.0`: https://github.com/samueldg/clippings/releases/tag/0.5.0
+.. _`0.6.0`: https://github.com/samueldg/clippings/releases/tag/0.6.0
