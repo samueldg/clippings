@@ -341,10 +341,12 @@ class ClippingFileParsingTest(unittest.TestCase):
         clippings_file_path = os.path.join(self.test_resources_dir, 'clippings.txt')
 
         with open(clippings_file_path, 'r') as clippings_file:
-            return parse_clippings(clippings_file)
+            clippings = parse_clippings(clippings_file)
 
         self.assertIsNotNone(clippings)
         self.assertEqual(5, len(clippings), '5 clippings should be parsed!')
+
+        return clippings
 
 
 class MainFunctionTest(unittest.TestCase):
