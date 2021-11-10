@@ -4,6 +4,11 @@ Change Log
 
 This document tracks changes to `clippings <https://pypi.org/pypi/clippings>`_ between releases.
 
+`0.8.0`_ (2021-11-09)
+---------------------
+
+* [dist] Add support for Python 3.10.
+
 `0.7.0`_ (2021-01-13)
 ---------------------
 
@@ -89,3 +94,4 @@ This document tracks changes to `clippings <https://pypi.org/pypi/clippings>`_ b
 .. _`0.5.0`: https://github.com/samueldg/clippings/releases/tag/0.5.0
 .. _`0.6.0`: https://github.com/samueldg/clippings/releases/tag/0.6.0
 .. _`0.7.0`: https://github.com/samueldg/clippings/releases/tag/0.7.0
+.. _`0.8.0`: https://github.com/samueldg/clippings/releases/tag/0.8.0
