@@ -35,7 +35,7 @@ setup(
     include_package_data=True,
     python_requires=">=3.6",
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Operating System :: OS Independent',
