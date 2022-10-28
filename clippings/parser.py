@@ -150,7 +150,10 @@ class Clipping(BasicEqualityMixin):
         }
 
 
-def parse_clippings(clippings_file):
+def parse_clippings(
+        clippings_file,
+        document_parser: Callable[[str], Document] = Document.parse,
+        metadata_parser: Callable[[str], Metadata] = Metadata.parse):
     """Take a file containing clippings, and return a list of objects."""
 
     # Last separator not followed by an entry
@@ -161,10 +164,10 @@ def parse_clippings(clippings_file):
         lines = entry.strip().splitlines()
 
         document_line = lines[0]
-        document = Document.parse(document_line)
+        document = document_parser(document_line)
 
         metadata_line = lines[1]
-        metadata = Metadata.parse(metadata_line)
+        metadata = metadata_parser(metadata_line)
 
         content = '\n'.join(lines[3:])
 
