@@ -50,9 +50,34 @@ def fixture_document_as_dict(document_title, document_authors):
     }
 
 
+@pytest.fixture(name='document_no_authors')
+def fixture_document_no_authors(document_title):
+    return Document(
+        title=document_title
+    )
+
+
+@pytest.fixture(name='document_no_authors_as_str')
+def fixture_document_no_authors_as_str():
+    return '1984'
+
+
+@pytest.fixture(name='document_no_authors_as_dict')
+def fixture_document_no_authors_as_dict(document_title):
+    return {
+        'title': document_title,
+        'authors': None,
+    }
+
+
 def test_create_document(document, document_title, document_authors):
     assert document.title == document_title
     assert document.authors == document_authors
+
+
+@pytest.mark.parametrize('document_authors', [None])
+def test_create_document_no_authors(document, document_title, document_authors):
+    test_create_document(document, document_title, document_authors)
 
 
 def test_parse_document(document_as_str, document_title, document_authors):
@@ -61,12 +86,27 @@ def test_parse_document(document_as_str, document_title, document_authors):
     assert document.title == document_title
 
 
+@pytest.mark.parametrize('document_authors', [None])
+def test_parse_document_no_authors(document_no_authors_as_str, document_title, document_authors):
+    test_parse_document(document_no_authors_as_str, document_title, document_authors)
+
+
 def test_document_to_string(document, document_as_str):
     assert str(document) == document_as_str
 
 
+@pytest.mark.parametrize('document_authors', [None])
+def test_document_no_authors_to_string(document, document_no_authors_as_str):
+    test_document_to_string(document, document_no_authors_as_str)
+
+
 def test_document_to_dict(document, document_as_dict):
     assert document.to_dict() == document_as_dict
+
+
+@pytest.mark.parametrize('document_authors', [None])
+def test_document_no_authors_to_dict(document, document_no_authors_as_dict):
+    test_document_to_dict(document, document_no_authors_as_dict)
 
 
 def test_document_equality_same_values(document, document_as_dict):

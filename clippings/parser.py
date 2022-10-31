@@ -21,13 +21,16 @@ class Document(BasicEqualityMixin):
 
     PATTERN = re.compile(r'^(?P<title>.+) \((?P<authors>.+?)\)$')
 
-    def __init__(self, title, authors):
+    def __init__(self, title, authors=None):
         self.title = title
         self.authors = authors
 
     def __str__(self):
-        return '{title} ({authors})'.format(title=self.title,
-                                            authors=self.authors)
+        if self.authors:
+            return '{title} ({authors})'.format(title=self.title,
+                                                authors=self.authors)
+        else:
+            return self.title
 
     def to_dict(self):
         return self.__dict__
@@ -35,9 +38,10 @@ class Document(BasicEqualityMixin):
     @classmethod
     def parse(cls, line):
         match = re.match(cls.PATTERN, line)
-        title = match.group('title')
-        authors = match.group('authors')
-        return cls(title, authors)
+        if match:
+            return cls(match.group('title'), match.group('authors'))
+        else:
+            return cls(line, None)
 
 
 class Location(BasicEqualityMixin):
