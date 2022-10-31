@@ -2,6 +2,7 @@
 import argparse
 import json
 import re
+from typing import Callable
 
 import dateutil.parser
 

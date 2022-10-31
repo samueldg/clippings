@@ -1,0 +1,15 @@
+[{'content': 'Though she had Ersyri blood, she had not been born in the Ersyr '
+             'and had not often set foot in it.',
+  'document': {'authors': 'Samantha Shannon',
+               'title': 'The Priory of the Orange Tree'},
+  'metadata': {'category': <Category.HIGHLIGHT: 2>,
+               'location': {'begin': 7, 'end': 7},
+               'page': 5,
+               'timestamp': datetime.datetime(2021, 2, 26, 11, 3, 2)}},
+ {'content': 'asintiendo a una pregunta que Max no había llegado a formular.',
+  'document': {'authors': 'Carlos Ruiz Zafón',
+               'title': 'El Principe de la Niebla'},
+  'metadata': {'category': <Category.HIGHLIGHT: 2>,
+               'location': {'begin': 0, 'end': 0},
+               'page': 4,
+               'timestamp': datetime.datetime(2022, 7, 6, 6, 54, 57)}}]
