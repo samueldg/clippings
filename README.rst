@@ -37,8 +37,8 @@ Programmatic Usage
 
     from clippings import parse_clippings
 
-    my_clippings_fl = ...
-    parse_clippings(my_clippings_fl)
+    my_clippings_file = ...
+    parse_clippings(my_clippings_file)
 
 Want to parse non-English clippings?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
