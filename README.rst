@@ -54,9 +54,6 @@ Here's a highlight clipping taken from a Kindle that speaks Spanish::
 the second line and pass it to the parameter ``metadata_parser``. 
 You can take a look at an example `here <examples/bilingual_spanish_english_kindle/main.py>`_.
 
-
-
-
 .. |pypi| image:: https://img.shields.io/pypi/v/clippings.svg
     :target: https://pypi.org/pypi/clippings
     :alt: Latest version released on PyPI
