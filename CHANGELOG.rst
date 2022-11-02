@@ -7,6 +7,7 @@ This document tracks changes to `clippings <https://pypi.org/pypi/clippings>`_ b
 `0.9.0`_ (WIP)
 ---------------------
 
+* [feature] Allow document title lines that don't include an author (@jonahsol)
 * [dist] Drop support for Python 3.6.
 * [dist] Add support for Python 3.11, and include in CI.
 
