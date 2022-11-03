@@ -5,7 +5,6 @@ import re
 from datetime import datetime
 import locale as locale_module
 import contextlib
-from typing_extensions import Unpack
 from typing import Optional, TypedDict, Callable
 from clippings.parser import Metadata, Location
 
@@ -87,7 +86,7 @@ class MetadataParsers(TypedDict):
     timestamp: Callable[[str], datetime]
 
 
-def create_metadata_parser(**parsers: Unpack[MetadataParsers]):
+def create_metadata_parser(**parsers):
     def parser(metadata_line: str):
         return Metadata(
             category=parsers['category'](metadata_line),
