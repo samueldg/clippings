@@ -1,12 +1,10 @@
-from parser import ParserError
-from enum import Enum, auto
-from typing import Optional
+import contextlib
+import locale as locale_module
 import re
 from datetime import datetime
-import locale as locale_module
-import contextlib
-from typing_extensions import Unpack
+from enum import Enum, auto
 from typing import Optional, TypedDict, Callable
+
 from clippings.parser import Metadata, Location
 
 
@@ -17,17 +15,17 @@ class ParseError(Exception):
 
 class Category(Enum):
     """
-    Category allows users to normalise the result of metadata line parsing 
+    Category allows users to normalise the result of metadata line parsing
     across languages.
 
     For example, the metadata lines
 
-    "- La subrayado en la página 4 | posición 60-60 | Añadido el miércoles, 6 de julio de 2022 06:54:57" 
-    "- Your Highlight on page 4 | location 60-60 | Added on Wednesday, 6 July 2022 06:54:57" 
+    "- La subrayado en la página 4 | posición 60-60 | Añadido el miércoles, 6 de julio de 2022 06:54:57"
+    "- Your Highlight on page 4 | location 60-60 | Added on Wednesday, 6 July 2022 06:54:57"
 
-    represent the same highlight but in different languages, so we may wish to 
+    represent the same highlight but in different languages, so we may wish to
     parse them both as { "category": Category.HIGHLIGHT, ... }.
-    """
+    """  # noqa: E501
     NOTE = auto()
     HIGHLIGHT = auto()
     BOOKMARK = auto()
@@ -87,7 +85,7 @@ class MetadataParsers(TypedDict):
     timestamp: Callable[[str], datetime]
 
 
-def create_metadata_parser(**parsers: Unpack[MetadataParsers]):
+def create_metadata_parser(**parsers):
     def parser(metadata_line: str):
         return Metadata(
             category=parsers['category'](metadata_line),
