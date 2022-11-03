@@ -7,6 +7,7 @@ This document tracks changes to `clippings <https://pypi.org/pypi/clippings>`_ b
 `0.9.0`_ (WIP)
 ---------------------
 
+* [feature] Extend API to allow custom metadata line parsers. Includes an example of providing an English + Spanish bilingual parser. (@jonahsol)
 * [feature] Allow document title lines that don't include an author (@jonahsol)
 * [dist] Drop support for Python 3.6.
 * [dist] Add support for Python 3.11, and include in CI.
