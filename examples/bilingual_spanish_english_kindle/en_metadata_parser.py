@@ -1,4 +1,6 @@
-from .utils import *
+from clippings.parser import Location
+from .utils import (Category, MetadataParsers, ParseError, bind_parsers,
+                    create_metadata_parser, date_parser, pattern_parser)
 
 
 def en_category_parser(category_str) -> Category:
