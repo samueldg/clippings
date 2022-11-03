@@ -20,6 +20,9 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/samueldg/clippings/',
     download_url='https://github.com/samueldg/clippings/tarball/' + VERSION,
+    project_urls={
+        "Changelog": "https://github.com/samueldg/clippings/blob/master/CHANGELOG.md",
+    },
     install_requires=REQUIREMENTS,
     license='MIT',
     author='Samuel Dion-Girardeau',
