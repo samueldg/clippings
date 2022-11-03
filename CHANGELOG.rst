@@ -12,6 +12,7 @@ This document tracks changes to `clippings <https://pypi.org/pypi/clippings>`_ b
 * [dist] Drop support for Python 3.6.
 * [dist] Add support for Python 3.11, and include in CI.
 * [misc] Upgrade all dev dependencies
+* [misc] Add linter step in Github Actions CI.
 
 `0.8.0`_ (2021-11-09)
 ---------------------
