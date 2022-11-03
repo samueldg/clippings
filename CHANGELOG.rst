@@ -4,7 +4,7 @@ Change Log
 
 This document tracks changes to `clippings <https://pypi.org/pypi/clippings>`_ between releases.
 
-`0.9.0`_ (WIP)
+`0.9.0`_ (2022-11-03)
 ---------------------
 
 * [feature] Extend API to allow custom metadata line parsers. Includes an example of providing an English + Spanish bilingual parser. (@jonahsol)
