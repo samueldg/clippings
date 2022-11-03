@@ -3,7 +3,7 @@ from enum import Enum, auto
 from typing import Optional
 import re
 from datetime import datetime
-import locale as pylocale
+import locale as locale_module
 import contextlib
 from typing_extensions import Unpack
 from typing import Optional, TypedDict, Callable
@@ -37,9 +37,9 @@ class Category(Enum):
 def setlocale(*args, **kw):
     """ With thanks: https://stackoverflow.com/a/18594128
     """
-    saved = pylocale.setlocale(pylocale.LC_ALL)
-    yield pylocale.setlocale(*args, **kw)
-    pylocale.setlocale(pylocale.LC_ALL, saved)
+    saved = locale_module.setlocale(locale_module.LC_ALL)
+    yield locale_module.setlocale(*args, **kw)
+    locale_module.setlocale(locale_module.LC_ALL, saved)
 
 
 def pattern_parser(pattern, raise_parse_failure=False):
@@ -56,7 +56,7 @@ def pattern_parser(pattern, raise_parse_failure=False):
 def date_parser(date_format, locale=None):
     def parser(s: str):
         if locale:
-            with setlocale(pylocale.LC_TIME, locale):
+            with setlocale(locale_module.LC_TIME, locale):
                 return datetime.strptime(s, date_format)
         else:
             return datetime.strptime(s, date_format)
