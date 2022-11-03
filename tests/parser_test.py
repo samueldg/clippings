@@ -437,6 +437,22 @@ def fixture_parsed_clippings(clippings_filename):
     return clippings
 
 
+def test_parse_clippings_parser_params(clippings_filename, document, metadata):
+    clippings_file_path = os.path.join(TEST_RESOURCES_DIR, clippings_filename)
+    def document_parser(_): return document
+    def metadata_parser(_): return metadata
+
+    with open(clippings_file_path, 'r') as clippings_file:
+        clippings = parse_clippings(
+            clippings_file,
+            document_parser=document_parser,
+            metadata_parser=metadata_parser)
+
+    assert len(clippings) != 0
+    assert clippings[0].document == document
+    assert clippings[0].metadata == metadata
+
+
 def test_parse_clippings_file_to_json(parsed_clippings):
     results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.json')
     with open(results_file_path) as results_file:
