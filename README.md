@@ -22,7 +22,7 @@ pip install clippings
 
 ```sh
 # Parse a clippings file
-clippings -o dict ./clippings.txt
+clippings -o json ./clippings.txt
 
 # or from stdin:
 cat clippings.txt | clippings -
