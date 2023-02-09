@@ -4,9 +4,14 @@ target-version = ['py37', 'py38', 'py39', 'py310', 'py311']
 
 [tool.ruff]
 exclude = [
-    '.git',
     '__pycache__',
+    '.git/',
+    '.github/',
+    '.pytest_cache/',
+    '.venv/',
     '.vscode',
+    '*.egg-info',
+    'htmlcov',
 ]
 ignore = []
 line-length = 99
