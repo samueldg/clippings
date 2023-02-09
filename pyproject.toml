@@ -71,41 +71,41 @@ include = [
 
 [tool.coverage.run]
 source = [
-    'clippings'
+    "clippings"
 ]
 
 [tool.coverage.report]
 exclude_lines = [
-    'if __name__ == .__main__.:',
+    "if __name__ == .__main__.:",
 ]
 
 [tool.black]
 line-length = 99
-target-version = ['py37', 'py38', 'py39', 'py310', 'py311']
+target-version = ["py37", "py38", "py39", "py310", "py311"]
 
 [tool.ruff]
 exclude = [
-    '__pycache__',
-    '.git/',
-    '.github/',
-    '.pytest_cache/',
-    '.venv/',
-    '.vscode',
-    '*.egg-info',
-    'htmlcov',
+    "__pycache__",
+    ".git/",
+    ".github/",
+    ".pytest_cache/",
+    ".venv/",
+    ".vscode",
+    "*.egg-info",
+    "htmlcov",
 ]
 ignore = []
 line-length = 99
 select = [
-    'B',
-    'E',
-    'F',
-    'I',
-    'Q',
-    'UP',
-    'W',
+    "B",
+    "E",
+    "F",
+    "I",
+    "Q",
+    "UP",
+    "W",
 ]
-target-version = 'py37'
+target-version = "py37"
 
 [tool.ruff.isort]
 force-single-line = true
