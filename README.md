@@ -48,7 +48,7 @@ El Principe de la Niebla (Carlos Ruiz Zafón)
 asintiendo a una pregunta que Max no había llegado a formular.
 ```
 
-`parse_clippings` won't parse this by default but you can write your own parser for 
+`parse_clippings` won't parse this by default but you can write your own parser for
 the second line and pass it to the parameter `metadata_parser`.
 
 You can take a look at an example [here](./examples/bilingual_spanish_english_kindle/main.py).
