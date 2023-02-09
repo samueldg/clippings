@@ -4,7 +4,7 @@ from setuptools import setup
 
 with open("clippings/__init__.py") as f:
     # Not importing the file in setup.py!
-    VERSION = re.search(r"__version__ = '(?P<version>.*?)'", f.read()).group("version")
+    VERSION = re.search(r"__version__ = \"(?P<version>.*?)\"", f.read()).group("version")
 
 
 REQUIREMENTS = [
