@@ -60,6 +60,15 @@ dev = [
 [tool.hatch.version]
 path = "clippings/__init__.py"
 
+[tool.hatch.build.targets.sdist]
+# Specify which files and packages to include in the source distribution
+# Notably, exclude "tests" and "examples"
+include = [
+    "/clippings",
+    "/LICENSE.txt",
+    "/README.md",
+]
+
 [tool.coverage.run]
 source = [
     'clippings'
