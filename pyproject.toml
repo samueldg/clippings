@@ -1,6 +1,6 @@
 [tool.black]
 line-length = 99
-target-version = ['py310']
+target-version = ['py37']
 
 [tool.ruff]
 exclude = [
@@ -19,6 +19,7 @@ select = [
     'UP',
     'W',
 ]
+target-version = ['py37']
 
 [tool.ruff.isort]
 force-single-line = true

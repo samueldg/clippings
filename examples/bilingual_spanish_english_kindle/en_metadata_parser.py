@@ -1,5 +1,13 @@
-from .utils import (Category, MetadataParsers, ParseError, bind_parsers,
-                    create_metadata_parser, date_parser, int_parser, pattern_parser)
+from .utils import (
+    Category,
+    MetadataParsers,
+    ParseError,
+    bind_parsers,
+    create_metadata_parser,
+    date_parser,
+    int_parser,
+    pattern_parser,
+)
 from clippings.parser import Location
 
 
@@ -12,14 +20,12 @@ def en_category_parser(category_str) -> Category:
 
 
 en_metadata_parsers: MetadataParsers = {
-    "location": bind_parsers(
-        Location.parse,
-        pattern_parser(r'location ([\d-])+')),
-    "page": bind_parsers(int_parser, pattern_parser(r'page ([\d-])+')),
+    "location": bind_parsers(Location.parse, pattern_parser(r"location ([\d-])+")),
+    "page": bind_parsers(int_parser, pattern_parser(r"page ([\d-])+")),
     "timestamp": bind_parsers(
-        date_parser('%A, %d %B %Y %H:%M:%S'),
-        pattern_parser(r'Added on (.+)', True)),
-    "category": bind_parsers(en_category_parser, pattern_parser(r'Your (\w+)', True))
+        date_parser("%A, %d %B %Y %H:%M:%S"), pattern_parser(r"Added on (.+)", True)
+    ),
+    "category": bind_parsers(en_category_parser, pattern_parser(r"Your (\w+)", True)),
 }
 
 en_metadata_parser = create_metadata_parser(**en_metadata_parsers)

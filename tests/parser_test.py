@@ -16,20 +16,20 @@ from clippings.parser import as_kindle
 from clippings.parser import parse_clippings
 
 
-TEST_RESOURCES_DIR = os.path.join('tests', 'resources')
+TEST_RESOURCES_DIR = os.path.join("tests", "resources")
 
 
-@pytest.fixture(name='document_title')
+@pytest.fixture(name="document_title")
 def fixture_document_title():
-    return '1984'
+    return "1984"
 
 
-@pytest.fixture(name='document_authors')
+@pytest.fixture(name="document_authors")
 def fixture_document_authors():
-    return 'George Orwell'
+    return "George Orwell"
 
 
-@pytest.fixture(name='document')
+@pytest.fixture(name="document")
 def fixture_document(document_title, document_authors):
     return Document(
         title=document_title,
@@ -37,36 +37,34 @@ def fixture_document(document_title, document_authors):
     )
 
 
-@pytest.fixture(name='document_as_str')
+@pytest.fixture(name="document_as_str")
 def fixture_document_as_str():
-    return '1984 (George Orwell)'
+    return "1984 (George Orwell)"
 
 
-@pytest.fixture(name='document_as_dict')
+@pytest.fixture(name="document_as_dict")
 def fixture_document_as_dict(document_title, document_authors):
     return {
-        'title': document_title,
-        'authors': document_authors,
+        "title": document_title,
+        "authors": document_authors,
     }
 
 
-@pytest.fixture(name='document_no_authors')
+@pytest.fixture(name="document_no_authors")
 def fixture_document_no_authors(document_title):
-    return Document(
-        title=document_title
-    )
+    return Document(title=document_title)
 
 
-@pytest.fixture(name='document_no_authors_as_str')
+@pytest.fixture(name="document_no_authors_as_str")
 def fixture_document_no_authors_as_str():
-    return '1984'
+    return "1984"
 
 
-@pytest.fixture(name='document_no_authors_as_dict')
+@pytest.fixture(name="document_no_authors_as_dict")
 def fixture_document_no_authors_as_dict(document_title):
     return {
-        'title': document_title,
-        'authors': None,
+        "title": document_title,
+        "authors": None,
     }
 
 
@@ -75,7 +73,7 @@ def test_create_document(document, document_title, document_authors):
     assert document.authors == document_authors
 
 
-@pytest.mark.parametrize('document_authors', [None])
+@pytest.mark.parametrize("document_authors", [None])
 def test_create_document_no_authors(document, document_title, document_authors):
     test_create_document(document, document_title, document_authors)
 
@@ -86,7 +84,7 @@ def test_parse_document(document_as_str, document_title, document_authors):
     assert document.title == document_title
 
 
-@pytest.mark.parametrize('document_authors', [None])
+@pytest.mark.parametrize("document_authors", [None])
 def test_parse_document_no_authors(document_no_authors_as_str, document_title, document_authors):
     test_parse_document(document_no_authors_as_str, document_title, document_authors)
 
@@ -95,7 +93,7 @@ def test_document_to_string(document, document_as_str):
     assert str(document) == document_as_str
 
 
-@pytest.mark.parametrize('document_authors', [None])
+@pytest.mark.parametrize("document_authors", [None])
 def test_document_no_authors_to_string(document, document_no_authors_as_str):
     test_document_to_string(document, document_no_authors_as_str)
 
@@ -104,7 +102,7 @@ def test_document_to_dict(document, document_as_dict):
     assert document.to_dict() == document_as_dict
 
 
-@pytest.mark.parametrize('document_authors', [None])
+@pytest.mark.parametrize("document_authors", [None])
 def test_document_no_authors_to_dict(document, document_no_authors_as_dict):
     test_document_to_dict(document, document_no_authors_as_dict)
 
@@ -117,7 +115,7 @@ def test_document_equality_same_values(document, document_as_dict):
 
 def test_document_equality_different_values(document, document_as_dict):
     other_document_kwargs = deepcopy(document_as_dict)
-    other_document_kwargs['authors'] = 'Lewis Carroll'
+    other_document_kwargs["authors"] = "Lewis Carroll"
     other_document = Document(**other_document_kwargs)
     assert other_document != document
 
@@ -127,17 +125,17 @@ def test_document_equality_different_types(document, document_as_dict):
     assert document_as_dict != document
 
 
-@pytest.fixture(name='location_begin')
+@pytest.fixture(name="location_begin")
 def fixture_location_begin():
     return 666
 
 
-@pytest.fixture(name='location_end')
+@pytest.fixture(name="location_end")
 def fixture_location_end():
     return 1337
 
 
-@pytest.fixture(name='location_range')
+@pytest.fixture(name="location_range")
 def fixture_location_range(location_begin, location_end):
     return Location(
         begin=location_begin,
@@ -145,7 +143,7 @@ def fixture_location_range(location_begin, location_end):
     )
 
 
-@pytest.fixture(name='location_single')
+@pytest.fixture(name="location_single")
 def fixture_location_single(location_begin):
     return Location(
         begin=location_begin,
@@ -153,21 +151,21 @@ def fixture_location_single(location_begin):
     )
 
 
-@pytest.fixture(name='location_range_as_str')
+@pytest.fixture(name="location_range_as_str")
 def fixture_location_range_as_str():
-    return '666-1337'
+    return "666-1337"
 
 
-@pytest.fixture(name='location_single_as_str')
+@pytest.fixture(name="location_single_as_str")
 def fixture_location_single_as_str(location_begin):
-    return '666'
+    return "666"
 
 
-@pytest.fixture(name='location_range_as_dict')
+@pytest.fixture(name="location_range_as_dict")
 def fixture_location_range_as_dict(location_begin, location_end):
     return {
-        'begin': location_begin,
-        'end': location_end,
+        "begin": location_begin,
+        "end": location_end,
     }
 
 
@@ -208,7 +206,7 @@ def test_location_equality_same_values(location_range, location_range_as_dict):
 
 def test_location_equality_different_values(location_range, location_range_as_dict):
     other_location_kwargs = deepcopy(location_range_as_dict)
-    other_location_kwargs['end'] += 1
+    other_location_kwargs["end"] += 1
     other_location = Location(**other_location_kwargs)
     assert other_location != location_range
 
@@ -218,22 +216,22 @@ def test_location_equality_different_types(location_range, location_range_as_dic
     assert location_range_as_dict != location_range
 
 
-@pytest.fixture(name='category')
+@pytest.fixture(name="category")
 def fixture_category():
-    return 'Highlight'
+    return "Highlight"
 
 
-@pytest.fixture(name='page')
+@pytest.fixture(name="page")
 def fixture_page():
     return 95
 
 
-@pytest.fixture(name='timestamp')
+@pytest.fixture(name="timestamp")
 def fixture_timestamp():
     return datetime.datetime(2016, 9, 13, 7, 29, 9)
 
 
-@pytest.fixture(name='metadata')
+@pytest.fixture(name="metadata")
 def fixture_metadata(category, location_range, page, timestamp):
     return Metadata(
         category=category,
@@ -243,13 +241,13 @@ def fixture_metadata(category, location_range, page, timestamp):
     )
 
 
-@pytest.fixture(name='metadata_as_dict')
+@pytest.fixture(name="metadata_as_dict")
 def fixture_metadata_as_dict(category, location_range_as_dict, page, timestamp):
     return {
-        'category': category,
-        'location': location_range_as_dict,
-        'page': page,
-        'timestamp': timestamp,
+        "category": category,
+        "location": location_range_as_dict,
+        "page": page,
+        "timestamp": timestamp,
     }
 
 
@@ -261,15 +259,19 @@ def test_create_metadata(metadata, category, location_range, page, timestamp):
 
 
 def test_metadata_to_str_with_page(metadata):
-    expected_string = ('- Your Highlight on page 95 | Location 666-1337 | '
-                       'Added on Tuesday, September 13, 2016 7:29:09 AM')
+    expected_string = (
+        "- Your Highlight on page 95 | Location 666-1337 | "
+        "Added on Tuesday, September 13, 2016 7:29:09 AM"
+    )
     assert str(metadata) == expected_string
 
 
-@pytest.mark.parametrize('page', [None])
+@pytest.mark.parametrize("page", [None])
 def test_metadata_to_str_without_page(metadata):
-    expected_string = ('- Your Highlight on Location 666-1337 | '
-                       'Added on Tuesday, September 13, 2016 7:29:09 AM')
+    expected_string = (
+        "- Your Highlight on Location 666-1337 | "
+        "Added on Tuesday, September 13, 2016 7:29:09 AM"
+    )
     assert str(metadata) == expected_string
 
 
@@ -278,8 +280,10 @@ def test_metadata_to_dict(metadata, metadata_as_dict):
 
 
 def test_parse_metadata_without_page(category, location_range, timestamp):
-    metadata_string = ('- Your Highlight on Location 666-1337 | '
-                       'Added on Tuesday, September 13, 2016 7:29:09 AM')
+    metadata_string = (
+        "- Your Highlight on Location 666-1337 | "
+        "Added on Tuesday, September 13, 2016 7:29:09 AM"
+    )
     metadata = Metadata.parse(metadata_string)
 
     assert metadata.category == category
@@ -290,14 +294,17 @@ def test_parse_metadata_without_page(category, location_range, timestamp):
 
 # Make sure we support both capitalization styles,
 # see https://github.com/samueldg/clippings/issues/25
-@pytest.mark.parametrize('page_str', [
-    'page 95',
-    'Page 95',
-])
+@pytest.mark.parametrize(
+    "page_str",
+    [
+        "page 95",
+        "Page 95",
+    ],
+)
 def test_parse_metadata_with_page(page_str, category, location_range, timestamp, page):
     metadata_string = (
-        '- Your Highlight on {0} | Location 666-1337 | '.format(page_str) +
-        'Added on Thursday, September 13, 2016 7:29:09 AM'
+        "- Your Highlight on {0} | Location 666-1337 | ".format(page_str)
+        + "Added on Thursday, September 13, 2016 7:29:09 AM"
     )
     metadata = Metadata.parse(metadata_string)
 
@@ -308,11 +315,12 @@ def test_parse_metadata_with_page(page_str, category, location_range, timestamp,
 
 
 def test_parse_metadata_with_single_location(timestamp, page):
-    metadata_string = ('- Your Note on Location 20 | '
-                       'Added on Tuesday, September 13, 2016 7:29:09 AM')
+    metadata_string = (
+        "- Your Note on Location 20 | " "Added on Tuesday, September 13, 2016 7:29:09 AM"
+    )
     metadata = Metadata.parse(metadata_string)
 
-    assert metadata.category == 'Note'
+    assert metadata.category == "Note"
     assert metadata.timestamp == timestamp
     assert metadata.location == Location(20, 20)
     assert metadata.page is None
@@ -343,12 +351,12 @@ def test_metadata_equality_different_types(metadata, metadata_as_dict):
     assert metadata != metadata_as_dict
 
 
-@pytest.fixture(name='content')
+@pytest.fixture(name="content")
 def fixture_content():
-    'Some \n content'
+    "Some \n content"
 
 
-@pytest.fixture(name='clipping')
+@pytest.fixture(name="clipping")
 def fixture_clipping(document, metadata, content):
     return Clipping(
         document=document,
@@ -365,10 +373,10 @@ def test_create_clipping(clipping, document, metadata, content):
 
 def test_clipping_to_str():
     document = Mock()
-    document.__str__ = Mock(return_value='Title (Author)')
+    document.__str__ = Mock(return_value="Title (Author)")
     metadata = Mock()
-    metadata.__str__ = Mock(return_value='SO META!')
-    content = 'Some content'
+    metadata.__str__ = Mock(return_value="SO META!")
+    content = "Some content"
     clipping = Clipping(document, metadata, content)
 
     expected_string = "Title (Author)\nSO META!\nSome content"
@@ -378,16 +386,16 @@ def test_clipping_to_str():
 
 def test_clipping_to_dict():
     document = Mock()
-    document.to_dict = Mock(return_value={'doc': 'ument'})
+    document.to_dict = Mock(return_value={"doc": "ument"})
     metadata = Mock()
-    metadata.to_dict = Mock(return_value={'meta': 'data'})
-    content = 'Some content'
+    metadata.to_dict = Mock(return_value={"meta": "data"})
+    content = "Some content"
     clipping = Clipping(document, metadata, content)
 
     expected_dict = {
-        'content': 'Some content',
-        'document': {'doc': 'ument'},
-        'metadata': {'meta': 'data'},
+        "content": "Some content",
+        "document": {"doc": "ument"},
+        "metadata": {"meta": "data"},
     }
 
     assert clipping.to_dict() == expected_dict
@@ -408,7 +416,7 @@ def test_clipping_equality_different_values(clipping, document, metadata):
     other_clipping = Clipping(
         document=document,
         metadata=metadata,
-        content='Different content',
+        content="Different content",
     )
 
     assert other_clipping != clipping
@@ -418,12 +426,12 @@ def test_clipping_equality_different_types(clipping):
     assert clipping != clipping.to_dict()
 
 
-@pytest.fixture(name='clippings_filename')
+@pytest.fixture(name="clippings_filename")
 def fixture_clippings_filename():
-    return 'clippings.txt'
+    return "clippings.txt"
 
 
-@pytest.fixture(name='parsed_clippings')
+@pytest.fixture(name="parsed_clippings")
 def fixture_parsed_clippings(clippings_filename):
     """Parse the clippings.txt file in the test resources, and returns
     the list of Clipping objects.
@@ -431,7 +439,7 @@ def fixture_parsed_clippings(clippings_filename):
 
     clippings_file_path = os.path.join(TEST_RESOURCES_DIR, clippings_filename)
 
-    with open(clippings_file_path, 'r') as clippings_file:
+    with open(clippings_file_path, "r") as clippings_file:
         clippings = parse_clippings(clippings_file)
 
     return clippings
@@ -439,14 +447,17 @@ def fixture_parsed_clippings(clippings_filename):
 
 def test_parse_clippings_parser_params(clippings_filename, document, metadata):
     clippings_file_path = os.path.join(TEST_RESOURCES_DIR, clippings_filename)
-    def document_parser(_): return document
-    def metadata_parser(_): return metadata
 
-    with open(clippings_file_path, 'r') as clippings_file:
+    def document_parser(_):
+        return document
+
+    def metadata_parser(_):
+        return metadata
+
+    with open(clippings_file_path, "r") as clippings_file:
         clippings = parse_clippings(
-            clippings_file,
-            document_parser=document_parser,
-            metadata_parser=metadata_parser)
+            clippings_file, document_parser=document_parser, metadata_parser=metadata_parser
+        )
 
     assert len(clippings) != 0
     assert clippings[0].document == document
@@ -454,7 +465,7 @@ def test_parse_clippings_parser_params(clippings_filename, document, metadata):
 
 
 def test_parse_clippings_file_to_json(parsed_clippings):
-    results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.json')
+    results_file_path = os.path.join(TEST_RESOURCES_DIR, "clippings.json")
     with open(results_file_path) as results_file:
         expected_results = json.load(results_file)
     actual_results = as_json(parsed_clippings)
@@ -464,7 +475,7 @@ def test_parse_clippings_file_to_json(parsed_clippings):
 
 def test_parse_clippings_file_to_kindle(parsed_clippings):
     # Parse the Kindle file, then regenerate it, and compare.
-    results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.txt')
+    results_file_path = os.path.join(TEST_RESOURCES_DIR, "clippings.txt")
     with open(results_file_path) as results_file:
         expected_results = results_file.read()
     actual_results = as_kindle(parsed_clippings)
@@ -473,17 +484,17 @@ def test_parse_clippings_file_to_kindle(parsed_clippings):
 
 def test_parse_clippings_file_to_dict(parsed_clippings):
     # Compare the actual results against a JSON of expected results
-    results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings.dict')
+    results_file_path = os.path.join(TEST_RESOURCES_DIR, "clippings.dict")
     with open(results_file_path) as results_file:
         expected_results = eval(results_file.read())
     actual_results = as_dicts(parsed_clippings)
     assert actual_results == expected_results
 
 
-@pytest.mark.parametrize('clippings_filename', ['clippings-new-format.txt'])
+@pytest.mark.parametrize("clippings_filename", ["clippings-new-format.txt"])
 def test_parse_clippings_file_new_format_to_dict(parsed_clippings):
     # Compare the actual results against a JSON of expected results
-    results_file_path = os.path.join(TEST_RESOURCES_DIR, 'clippings-new-format.json')
+    results_file_path = os.path.join(TEST_RESOURCES_DIR, "clippings-new-format.json")
     with open(results_file_path) as results_file:
         expected_results = json.load(results_file)
     actual_results = as_json(parsed_clippings)
