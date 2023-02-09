@@ -19,7 +19,7 @@ select = [
     'UP',
     'W',
 ]
-target-version = ['py37']
+target-version = 'py37'
 
 [tool.ruff.isort]
 force-single-line = true
