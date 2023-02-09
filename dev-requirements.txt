@@ -1,5 +1,0 @@
-black~=23.0
-coverage[toml]~=7.1
-pytest~=7.2
-pytest-cov~=4.0
-ruff~=0.0.244
