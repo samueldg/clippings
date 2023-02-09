@@ -9,7 +9,6 @@ import dateutil.parser
 from clippings.utils import BasicEqualityMixin
 from clippings.utils import DatetimeJSONEncoder
 
-
 DATETIME_FORMAT = "%A, %B %d, %Y %I:%M:%S %p"  # E.g. Friday, May 13, 2016 11:23:26 PM
 CLIPPINGS_SEPARATOR = "=========="
 
@@ -28,7 +27,7 @@ class Document(BasicEqualityMixin):
 
     def __str__(self):
         if self.authors:
-            return "{title} ({authors})".format(title=self.title, authors=self.authors)
+            return f"{self.title} ({self.authors})"
         else:
             return self.title
 
@@ -58,7 +57,7 @@ class Location(BasicEqualityMixin):
         if self.begin == self.end:
             return str(self.begin)
         else:
-            return "{0}-{1}".format(self.begin, self.end)
+            return f"{self.begin}-{self.end}"
 
     def to_dict(self):
         return self.__dict__
@@ -99,7 +98,7 @@ class Metadata(BasicEqualityMixin):
         self.page = page
 
     def __str__(self):
-        page_string = "" if self.page is None else "page {0} | ".format(self.page)
+        page_string = "" if self.page is None else f"page {self.page} | "
 
         # Remove leading zero's from the timestamp.
         # They are not present in the Kindle format, but can't be avoided

@@ -15,7 +15,6 @@ from clippings.parser import as_json
 from clippings.parser import as_kindle
 from clippings.parser import parse_clippings
 
-
 TEST_RESOURCES_DIR = os.path.join("tests", "resources")
 
 
@@ -303,7 +302,7 @@ def test_parse_metadata_without_page(category, location_range, timestamp):
 )
 def test_parse_metadata_with_page(page_str, category, location_range, timestamp, page):
     metadata_string = (
-        "- Your Highlight on {0} | Location 666-1337 | ".format(page_str)
+        f"- Your Highlight on {page_str} | Location 666-1337 | "
         + "Added on Thursday, September 13, 2016 7:29:09 AM"
     )
     metadata = Metadata.parse(metadata_string)
@@ -439,7 +438,7 @@ def fixture_parsed_clippings(clippings_filename):
 
     clippings_file_path = os.path.join(TEST_RESOURCES_DIR, clippings_filename)
 
-    with open(clippings_file_path, "r") as clippings_file:
+    with open(clippings_file_path) as clippings_file:
         clippings = parse_clippings(clippings_file)
 
     return clippings
@@ -454,7 +453,7 @@ def test_parse_clippings_parser_params(clippings_filename, document, metadata):
     def metadata_parser(_):
         return metadata
 
-    with open(clippings_file_path, "r") as clippings_file:
+    with open(clippings_file_path) as clippings_file:
         clippings = parse_clippings(
             clippings_file, document_parser=document_parser, metadata_parser=metadata_parser
         )

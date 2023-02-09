@@ -1,14 +1,12 @@
-from .utils import (
-    Category,
-    MetadataParsers,
-    bind_parsers,
-    create_metadata_parser,
-    date_parser,
-    int_parser,
-    pattern_parser,
-)
-
 from clippings.parser import Location
+
+from .utils import Category
+from .utils import MetadataParsers
+from .utils import bind_parsers
+from .utils import create_metadata_parser
+from .utils import date_parser
+from .utils import int_parser
+from .utils import pattern_parser
 
 
 def es_category_parser(category_str) -> Category:

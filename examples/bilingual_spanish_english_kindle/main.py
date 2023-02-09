@@ -1,7 +1,8 @@
-from sys import argv
 from pprint import pprint
+from sys import argv
 
 from clippings.parser import parse_clippings
+
 from .en_or_es_metadata_parser import en_or_es_metadata_parser
 
 

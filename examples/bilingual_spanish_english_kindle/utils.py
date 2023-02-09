@@ -2,10 +2,14 @@ import contextlib
 import locale as locale_module
 import re
 from datetime import datetime
-from enum import Enum, auto
-from typing import Optional, TypedDict, Callable
+from enum import Enum
+from enum import auto
+from typing import Callable
+from typing import Optional
+from typing import TypedDict
 
-from clippings.parser import Metadata, Location
+from clippings.parser import Location
+from clippings.parser import Metadata
 
 
 class ParseError(Exception):

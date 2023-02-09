@@ -5,7 +5,6 @@ import pytest
 
 from clippings.utils import DatetimeJSONEncoder
 
-
 DATE = datetime.datetime(2016, 1, 2, 3, 4, 5)
 DATE_STRING = "2016-01-02T03:04:05"
 
