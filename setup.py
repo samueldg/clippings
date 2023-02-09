@@ -8,7 +8,7 @@ with open("clippings/__init__.py") as f:
 
 
 REQUIREMENTS = [
-    "python-dateutil~=2.7",
+    "python-dateutil~=2.8",
 ]
 
 setup(
