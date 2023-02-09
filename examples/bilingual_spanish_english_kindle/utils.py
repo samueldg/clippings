@@ -2,10 +2,14 @@ import contextlib
 import locale as locale_module
 import re
 from datetime import datetime
-from enum import Enum, auto
-from typing import Optional, TypedDict, Callable
+from enum import Enum
+from enum import auto
+from typing import Callable
+from typing import Optional
+from typing import TypedDict
 
-from clippings.parser import Metadata, Location
+from clippings.parser import Location
+from clippings.parser import Metadata
 
 
 class ParseError(Exception):
@@ -26,6 +30,7 @@ class Category(Enum):
     represent the same highlight but in different languages, so we may wish to
     parse them both as { "category": Category.HIGHLIGHT, ... }.
     """  # noqa: E501
+
     NOTE = auto()
     HIGHLIGHT = auto()
     BOOKMARK = auto()
@@ -33,8 +38,7 @@ class Category(Enum):
 
 @contextlib.contextmanager
 def setlocale(*args, **kw):
-    """ With thanks: https://stackoverflow.com/a/18594128
-    """
+    """With thanks: https://stackoverflow.com/a/18594128"""
     saved = locale_module.setlocale(locale_module.LC_ALL)
     yield locale_module.setlocale(*args, **kw)
     locale_module.setlocale(locale_module.LC_ALL, saved)
@@ -88,9 +92,10 @@ class MetadataParsers(TypedDict):
 def create_metadata_parser(**parsers):
     def parser(metadata_line: str):
         return Metadata(
-            category=parsers['category'](metadata_line),
-            location=parsers['location'](metadata_line),
-            timestamp=parsers['timestamp'](metadata_line),
-            page=parsers['page'](metadata_line))
+            category=parsers["category"](metadata_line),
+            location=parsers["location"](metadata_line),
+            timestamp=parsers["timestamp"](metadata_line),
+            page=parsers["page"](metadata_line),
+        )
 
     return parser

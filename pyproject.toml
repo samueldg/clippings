@@ -1,0 +1,111 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "clippings"
+description = "Amazon Kindle clippings parser"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+authors = [
+    { name = "Samuel Dion-Girardeau", email = "samuel.diongirardeau@gmail.com" },
+]
+keywords = [
+    "amazon",
+    "kindle",
+    "clipping",
+    "e-book",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+dynamic = [
+    "version",
+]
+dependencies = [
+    "python-dateutil ~= 2.7",
+]
+
+[project.urls]
+Homepage = "https://github.com/samueldg/clippings"
+Changelog = "https://github.com/samueldg/clippings/blob/master/CHANGELOG.md"
+
+[project.scripts]
+clippings = "clippings.parser:main"
+
+[project.optional-dependencies]
+test = [
+    "coverage[toml] ~= 7.1",
+    "pytest ~= 7.2",
+    "pytest-cov ~= 4.0",
+]
+dev = [
+    "black ~= 23.0",
+    "ruff ~= 0.0.244",
+]
+
+[tool.hatch.version]
+path = "clippings/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+# Specify which files and packages to include in the source distribution
+# Notably, exclude "tests" and "examples"
+include = [
+    "/clippings",
+    "/LICENSE.txt",
+    "/README.md",
+]
+
+[tool.coverage.run]
+source = [
+    "clippings"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "if __name__ == .__main__.:",
+]
+
+[tool.black]
+line-length = 99
+target-version = ["py37", "py38", "py39", "py310", "py311"]
+
+[tool.ruff]
+exclude = [
+    "__pycache__",
+    ".git/",
+    ".github/",
+    ".pytest_cache/",
+    ".venv/",
+    ".vscode",
+    "*.egg-info",
+    "htmlcov",
+]
+ignore = []
+line-length = 99
+select = [
+    "B",
+    "E",
+    "F",
+    "I",
+    "Q",
+    "UP",
+    "W",
+]
+target-version = "py37"
+
+[tool.ruff.isort]
+force-single-line = true

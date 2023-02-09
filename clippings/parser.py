@@ -9,9 +9,8 @@ import dateutil.parser
 from clippings.utils import BasicEqualityMixin
 from clippings.utils import DatetimeJSONEncoder
 
-
-DATETIME_FORMAT = '%A, %B %d, %Y %I:%M:%S %p'  # E.g. Friday, May 13, 2016 11:23:26 PM
-CLIPPINGS_SEPARATOR = '=========='
+DATETIME_FORMAT = "%A, %B %d, %Y %I:%M:%S %p"  # E.g. Friday, May 13, 2016 11:23:26 PM
+CLIPPINGS_SEPARATOR = "=========="
 
 
 class Document(BasicEqualityMixin):
@@ -20,7 +19,7 @@ class Document(BasicEqualityMixin):
     A document has a title, and one or multiple authors (in a string).
     """
 
-    PATTERN = re.compile(r'^(?P<title>.+) \((?P<authors>.+?)\)$')
+    PATTERN = re.compile(r"^(?P<title>.+) \((?P<authors>.+?)\)$")
 
     def __init__(self, title, authors=None):
         self.title = title
@@ -28,8 +27,7 @@ class Document(BasicEqualityMixin):
 
     def __str__(self):
         if self.authors:
-            return '{title} ({authors})'.format(title=self.title,
-                                                authors=self.authors)
+            return f"{self.title} ({self.authors})"
         else:
             return self.title
 
@@ -40,7 +38,7 @@ class Document(BasicEqualityMixin):
     def parse(cls, line):
         match = re.match(cls.PATTERN, line)
         if match:
-            return cls(match.group('title'), match.group('authors'))
+            return cls(match.group("title"), match.group("authors"))
         else:
             return cls(line, None)
 
@@ -59,14 +57,14 @@ class Location(BasicEqualityMixin):
         if self.begin == self.end:
             return str(self.begin)
         else:
-            return '{0}-{1}'.format(self.begin, self.end)
+            return f"{self.begin}-{self.end}"
 
     def to_dict(self):
         return self.__dict__
 
     @classmethod
     def parse(cls, string):
-        ranges = string.split('-')
+        ranges = string.split("-")
         if len(ranges) == 1:
             begin = end = ranges[0]
         else:
@@ -78,20 +76,20 @@ class Location(BasicEqualityMixin):
 class Metadata(BasicEqualityMixin):
     """Metadata about the clipping:
 
-        - The category of clipping (Note, Highlight, or Bookmark);
-        - The location within the document;
-        - The timestamp of the clipping;
-        - The page within the document (not always present).
+    - The category of clipping (Note, Highlight, or Bookmark);
+    - The location within the document;
+    - The timestamp of the clipping;
+    - The page within the document (not always present).
     """
 
     PATTERN = re.compile(
-        r'^- Your (?P<category>\w+) '
-        r'(on|at) ([Pp]age (?P<page>\d+) \| )?'
-        r'[Ll]ocation (?P<location>\d+(-\d+)?) \| '
-        r'Added on (?P<timestamp>.+)$'
+        r"^- Your (?P<category>\w+) "
+        r"(on|at) ([Pp]age (?P<page>\d+) \| )?"
+        r"[Ll]ocation (?P<location>\d+(-\d+)?) \| "
+        r"Added on (?P<timestamp>.+)$"
     )
 
-    HOUR_PATTERN = re.compile(r'0(\d:\d{2}:\d{2})')
+    HOUR_PATTERN = re.compile(r"0(\d:\d{2}:\d{2})")
 
     def __init__(self, category, location, timestamp, page=None):
         self.category = category
@@ -100,15 +98,15 @@ class Metadata(BasicEqualityMixin):
         self.page = page
 
     def __str__(self):
-        page_string = '' if self.page is None else 'page {0} | '.format(self.page)
+        page_string = "" if self.page is None else f"page {self.page} | "
 
         # Remove leading zero's from the timestamp.
         # They are not present in the Kindle format, but can't be avoided
         # in strftime.
         timestamp_str = self.timestamp.strftime(DATETIME_FORMAT)
-        timestamp_str = re.sub(self.HOUR_PATTERN, r'\1', timestamp_str)
+        timestamp_str = re.sub(self.HOUR_PATTERN, r"\1", timestamp_str)
 
-        return '- Your {category} on {page}Location {location} | Added on {timestamp}'.format(
+        return "- Your {category} on {page}Location {location} | Added on {timestamp}".format(
             category=self.category.title(),
             page=page_string,
             location=self.location,
@@ -117,20 +115,20 @@ class Metadata(BasicEqualityMixin):
 
     def to_dict(self):
         return {
-            'category': self.category,
-            'location': self.location.to_dict(),
-            'timestamp': self.timestamp,
-            'page': self.page,
+            "category": self.category,
+            "location": self.location.to_dict(),
+            "timestamp": self.timestamp,
+            "page": self.page,
         }
 
     @classmethod
     def parse(cls, line):
         match = re.match(cls.PATTERN, line)
-        category = match.group('category')
-        location = Location.parse(match.group('location'))
-        timestamp = dateutil.parser.parse(match.group('timestamp'))
+        category = match.group("category")
+        location = Location.parse(match.group("location"))
+        timestamp = dateutil.parser.parse(match.group("timestamp"))
         try:
-            page = int(match.group('page'))
+            page = int(match.group("page"))
         except TypeError:
             page = None
         return cls(category, location, timestamp, page)
@@ -145,20 +143,21 @@ class Clipping(BasicEqualityMixin):
         self.content = content
 
     def __str__(self):
-        return '\n'.join([str(self.document), str(self.metadata), str(self.content)])
+        return "\n".join([str(self.document), str(self.metadata), str(self.content)])
 
     def to_dict(self):
         return {
-            'document': self.document.to_dict(),
-            'metadata': self.metadata.to_dict(),
-            'content': self.content,
+            "document": self.document.to_dict(),
+            "metadata": self.metadata.to_dict(),
+            "content": self.content,
         }
 
 
 def parse_clippings(
-        clippings_file,
-        document_parser: Callable[[str], Document] = Document.parse,
-        metadata_parser: Callable[[str], Metadata] = Metadata.parse):
+    clippings_file,
+    document_parser: Callable[[str], Document] = Document.parse,
+    metadata_parser: Callable[[str], Metadata] = Metadata.parse,
+):
     """Take a file containing clippings, and return a list of objects."""
 
     # Last separator not followed by an entry
@@ -174,7 +173,7 @@ def parse_clippings(
         metadata_line = lines[1]
         metadata = metadata_parser(metadata_line)
 
-        content = '\n'.join(lines[3:])
+        content = "\n".join(lines[3:])
 
         clippings.append(Clipping(document, metadata, content))
 
@@ -186,16 +185,18 @@ def as_kindle(clippings):
 
     This can useful to programatically create clippings file.
     """
-    string = ''
+    string = ""
     for clipping in clippings:
-        string += '\n'.join([
-            str(clipping.document),
-            str(clipping.metadata),
-            '',
-            str(clipping.content),
-            CLIPPINGS_SEPARATOR,
-            ''
-        ])
+        string += "\n".join(
+            [
+                str(clipping.document),
+                str(clipping.metadata),
+                "",
+                str(clipping.content),
+                CLIPPINGS_SEPARATOR,
+                "",
+            ]
+        )
     return string
 
 
@@ -217,24 +218,26 @@ def main():
     """Read the provided clippings file, parse it,
     then print it using the provided format.
     """
-    parser = argparse.ArgumentParser(description='Kindle clippings parser')
-    parser.add_argument('file', type=argparse.FileType('r'))
-    parser.add_argument('-o', '--output', dest='output',
-                        choices=['json', 'dict', 'kindle'], default='json')
-    parser.add_argument('-w', '--write-to', dest='write_to', default='-',
-                        type=argparse.FileType('w'))
+    parser = argparse.ArgumentParser(description="Kindle clippings parser")
+    parser.add_argument("file", type=argparse.FileType("r"))
+    parser.add_argument(
+        "-o", "--output", dest="output", choices=["json", "dict", "kindle"], default="json"
+    )
+    parser.add_argument(
+        "-w", "--write-to", dest="write_to", default="-", type=argparse.FileType("w")
+    )
     args = parser.parse_args()
 
     clippings = parse_clippings(args.file)
 
     format_functions = {  # Which function to call, depending on 'output' type
-        'kindle': as_kindle,
-        'dict': as_dicts,
-        'json': as_json,
+        "kindle": as_kindle,
+        "dict": as_dicts,
+        "json": as_json,
     }
     format_function = format_functions[args.output]
-    print(format_function(clippings), file=args.write_to, end='')
+    print(format_function(clippings), file=args.write_to, end="")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
